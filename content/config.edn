@@ -1,0 +1,71 @@
+{:site-title           "ejelome"
+ :author               "ejelome"
+ :tagline              "Research, Design and Development"
+ :description          "Data-informed programming for the front-end web."
+ :site-url             "https://ejelome.com"
+ :post-root            "posts"
+ :page-root            "pages"
+ :post-root-uri        "blog"
+ :page-root-uri        ""
+ :tag-root-uri         "tags"
+ :author-root-uri      "author"
+ :public-dest          "public"
+ :blog-prefix          "/"
+ :rss-name             "feed.xml"
+ :rss-filters          []
+ :recent-posts         5
+ :post-date-format     "yyyy-MM-dd"
+ :archive-group-format "yyyy MMMM"
+ :sass-src             []
+ :sass-path            "sass"
+ :compass-path         "compass"
+ :theme                "wooji"
+ :resources            ["img" "CNAME"]
+ :keep-files           [".git"]
+ :disqus?              true
+ :disqus-shortname     "ejelome"
+ :ignored-files        [#"\.#.*" #".*\.swp$"]
+ :previews?            true
+ :posts-per-page       5
+ :blocks-per-preview   2
+ :clean-urls           :no-trailing-slash
+ :collapse-subdirs?    false
+ :hide-future-posts?   true
+ :klipse               {}
+ :debug?               false
+ :wooji {:favicon {:href "/img/favicon.ico"  ; (required): favicon path (absolute path)
+                   :type ""                  ; (optional): mime type of favicon
+                                             ;  [default]: "image/x-ico"
+                   :rel ""}                  ; (optional): rel type of favicon
+                                             ;  [default]: "shortcut icon"
+         :logo {:src    "/img/logo.png"      ; (required): logo path (absolute path)
+                :alt    ""                   ; (optional): alt of logo if broken
+                                             ;  [default]: :site-title
+                :width  nil                  ; (optional): width of logo
+                                             ;  [default]: 64
+                :height nil}                 ; (optional): height of logo
+                                             ;  [default]: 64
+         :social-medias [{:icon  "github"                     ; (required): icon of socia media
+                          :href  "https://github.com/ejelome" ; (optional): url of social media
+                          :title "GitHub Profile"}
+                         {:icon  "youtube"                                                  ; (required): icon of socia media
+                          :href  "https://www.youtube.com/channel/UCgqy7fcflZb5hhfLAUmlc5g" ; (optional): url of social media
+                          :title "Youtube Channel"}                                         ; (optional): title of social media
+                         {:icon  "linkedin"                        ; (required): icon of socia media
+                          :href  "https://linkedin.com/in/ejelome" ; (optional): url of social media
+                          :title "LinkedIn Profile"}]              ; (optional): title of social media
+         :label {:recent-posts        ""     ; (optional): heading of homepage posts
+                                             ;  [default]: "Recent posts"
+                 :post-summary        ""     ; (optional): heading of :post-summary
+                                             ;  [default]: "Summary"
+                 :author-html         ""     ; (optional): heading of author.html
+                                             ;  [default]: "Posts published by"
+                 :archive-description ""     ; (optional): meta-description of archives.html
+                                             ;  [default]: "Archives of posts according to date."
+                 :tags-description    ""     ; (optional): meta-description of tags.html
+                                             ;  [default]: "List of tags used on posts"
+                 :tag-html            ""}    ; (optional): heading of tag.html
+                                             ;  [default]: "Posts tagged with"
+         :gtag "UA-144170438-1"              ; (optional): google analytics tracking id
+         :gac  "ca-pub-3560971753878587"}    ; (optional): google adsense ad-client
+ }

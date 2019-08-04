@@ -1,0 +1,314 @@
+<!doctype html> <html lang=en> <head> <meta charset=utf-8 /> <title>Ruby on Rails: Test-driven development — ejelome</title> <meta content="Ruby on Rails: Test-driven development" name=title /> <meta content="A simplified summary of the Ruby on Rails Tutorial's chapter 3.3: Getting started with testing." name=description /> <meta content=ejelome name=author /> <meta content="width=device-width,initial-scale=1" name=viewport /> <link href=/img/favicon.ico rel="shortcut icon" type=image/x-icon /> <link href=https://ejelome.com/blog/ruby-on-rails-test-driven-development rel=canonical /> <script>var script=document.createElement("script");function gtag(){dataLayer.push(arguments)}script.src="//googletagmanager.com/gtag/js?id=UA-144170438-1",document.head.appendChild(script),window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-144170438-1")</script> <script src=https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js async data-ad-client=ca-pub-3560971753878587></script> <link href=/css/styles.css rel=stylesheet /> </head> <body class=posts> <div class=wrapper> <div class=header> <a href=/ class=navbar-brand> <img alt=ejelome class=site-logo height=64 src=/img/logo.png width=64 /> </a> <div class=site-info> <a href=/ class=site-title>ejelome</a> <p class=site-tagline>Research, Design and Development</p> </div> <ul class=social-media> <li class=github> <a href=https://github.com/ejelome rel=nofollow class=btn data-placement=top data-toggle=tooltip title="GitHub Profile"> <i class="fa-2x fab fa-github"> </i> </a> </li> <li class=youtube> <a href=https://www.youtube.com/channel/UCgqy7fcflZb5hhfLAUmlc5g rel=nofollow class=btn data-placement=top data-toggle=tooltip title="Youtube Channel"> <i class="fa-2x fab fa-youtube"> </i> </a> </li> <li class=linkedin> <a href=https://linkedin.com/in/ejelome rel=nofollow class=btn data-placement=top data-toggle=tooltip title="LinkedIn Profile"> <i class="fa-2x fab fa-linkedin"> </i> </a> </li> </ul> </div> <div class=siri-container> </div> <div class="nav site-nav"> <ul class=list-inline> <li class=list-inline-item> <a href=/ >Home</a> </li> <li class=list-inline-item> <a href=/about>About</a> </li> <li class=list-inline-item> <a href=/archives>Archives</a> </li> </ul> </div> <div class="breadcrumb breadcrumbs"> <a href=/ >Home</a> <span class=separator> <i class="separator fa-caret-right fas"> </i> </span> <a href=/blog>Blog</a> <span class=separator> <i class="separator fa-caret-right fas"> </i> </span> <strong class=active>Ruby on Rails: Test-driven development</strong> </div> <div class=main> <div class=sidebar> <div class="sticky-top toc"> <strong>Table of Contents</strong> </div> </div> <div class=content> <h1>Ruby on Rails: Test-driven development</h1> <div class=post-content> <div class=post-meta> <span class=author> <i class="fas fa-user"> </i> <a href=/about#about data-toggle=tooltip data-placement=top>ejelome</a> </span> <span class=separator>/</span> <span class=published> <i class="fa-clock far"> </i> <time data-placement=top data-toggle=tooltip datetime=2019-10-25T00:00Z title="Published Date">October 25, 2019</time>  <span class=separator>/</span> <span class=tags> <i class="fas fa-tags"> </i> <a href=/tags/development class=tag data-placement=top data-toggle=tooltip title="Posts tagged with development">development</a> <span class=separator>▪</span> <a href=/tags/ruby class=tag data-placement=top data-toggle=tooltip title="Posts tagged with ruby">ruby</a> <span class=separator>▪</span> <a href=/tags/ruby-on-rails class=tag data-placement=top data-toggle=tooltip title="Posts tagged with ruby-on-rails">ruby-on-rails</a> <span class=separator>▪</span> <a href=/tags/web-application-framework class=tag data-placement=top data-toggle=tooltip title="Posts tagged with web-application-framework">web-application-framework</a> </span> </div> <div class="jumbotron post-summary"> <h2>Summary</h2> <p> This document is a simplified summary of the Ruby on Rails Tutorial's chapter 3.3: Getting started with testing. The goal is to focus solely on building the project from the ground up using the test-driven development (a.k.a. TDD) software development process.</p> </div> <hr/> <div class=content-block> <p>This great book, <a href=https://www.railstutorial.org rel=nofollow>Ruby on Rails Tutorial</a>, was finally updated to the 6th edition to cover <a href=https://rubyonrails.org rel=nofollow>Ruby on Rails</a> 6. Unlike before, though, all chapters of the book isn't available online for free as it used to, however, in my opinion, people who learned a somewhat complete sense of Rails will still benefit from its first 3 free chapters; one being the third chapter, on section three: <a href=https://www.railstutorial.org/book/static_pages#sec-getting_started_with_testing rel=nofollow>Getting started with testing</a> — which this document is about.</p><h2>Prerequisites</h2><p>Before proceeding, make sure that the following are installed:</p><ul><li><a href=https://rvm.io rel=nofollow>RVM</a></li><li><a href=https://yarnpkg.com rel=nofollow>Yarn</a></li></ul><p><strong>Note:</strong> In this guide, we'll use the name <code>rails-tdd</code> (replace it with whatever name you want).</p><h2>Setup</h2><ol><li>Create and move to project directory:<pre><code class=shell>$ \
+mkdir -p ~/Projects/
+cd ~/Projects/
+</code></pre></li><li>Create and move to Rails app:<pre><code class=shell>$ \
+rails new rails-tdd
+cd rails-tdd/
+</code></pre></li><li>Apply migration:<pre><code class=shell>$ rails db:migrate
+</code></pre></li><li>Check if the test setup is working:<pre><code class=shell>$ rails test:system test
+...
+# Running:
+
+Finished in 0.069522s, 0.0000 runs/s, 0.0000 assertions/s.
+0 runs, 0 assertions, 0 failures, 0 errors, 0 skips
+</code></pre> <strong>Note:</strong> <code>test:system</code> is used to also run system tests.</li></ol><h2>Feature</h2><p>Before writing the test, a clear understanding of the following is necessary:</p><ul><li><a href=https://en.wikipedia.org/wiki/Specification_\f(technical_standard) rel=nofollow>Specification</a> (technical description)</li><li><a href=https://en.wikipedia.org/wiki/Requirement rel=nofollow>Requirements</a> (user expectations)</li><li><a href=https://en.wikipedia.org/wiki/Software_feature rel=nofollow>Feature</a> as the produced artifact</li></ul><p><strong>Example:</strong></p><pre><code class=html>Feature: Hello World! on homepage
+  Scenario: User visits homepage to see Hello World!
+    Given a web browser
+    When I visit http://localhost:3000
+    Then I should see the text: Hello World!
+</code></pre><h2>Red / Green / Refactor</h2><h3 id=[1]_red:_write_a_failing_test>[1] Red: Write a failing test</h3><p><strong>Note:</strong> Before we can write any test, we need to generate the boilerplate which includes the test file:</p><pre><code class=shell>$ rails g controller Pages
+</code></pre><p><strong>Note:</strong> The <code>controller</code> generator generates the smallest boilerplate with test files.</p><ol><li>Write the test:<pre><code class=ruby># File: test/controllers/pages_controller_test.rb
+require 'test_helper'
+
+class PagesControllerTest &lt; ActionDispatch::IntegrationTest
+  test "should get homepage" do
+    get "/"
+    assert_select "body", "Hello World!"
+  end
+end
+</code></pre></li><li>Run the test (which should fail):<pre><code class=shell>$ rails test:system test test/controllers/pages_controller_test.rb
+Running via Spring preloader in process 52281
+Run options: --seed 22224
+
+# Running:
+
+E
+
+Error:
+PagesControllerTest#test_should_get_homepage:
+ActionController::RoutingError: No route matches [GET] "/"
+    test/controllers/pages_controller_test.rb:5:in `block in &lt;class:PagesControllerTest>'
+
+rails test test/controllers/pages_controller_test.rb:4
+
+Finished in 0.086679s, 11.5368 runs/s, 0.0000 assertions/s.
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+</code></pre> <strong>Note:</strong> Limiting the test only to the test file prevents expensive execution of all the tests.</li></ol><h3 id=[2]_green:_make_the_test_pass>[2] Green: Make the test pass</h3><p><strong>Notes:</strong></p><ul><li>Write only enough and the necessary code to make the test pass</li><li>Avoid writing code beyond what the test requires</li><li><strong>Do not refactor during this step</strong></li></ul><p></p><ol><li>Update the routes:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  get "/" => "pages#index"
+end
+</code></pre></li><li>Re-run the test:<pre><code class=shell>$ rails test:system test test/controllers/pages_controller_test.rb
+Running via Spring preloader in process 53025
+Run options: --seed 52727
+
+# Running:
+
+E
+
+Error:
+PagesControllerTest#test_should_get_homepage:
+AbstractController::ActionNotFound: The action 'index' could not be found for PagesController
+    test/controllers/pages_controller_test.rb:5:in `block in &lt;class:PagesControllerTest>'
+
+rails test test/controllers/pages_controller_test.rb:4
+
+Finished in 0.136708s, 7.3148 runs/s, 0.0000 assertions/s.
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  def index
+  end
+end
+</code></pre></li><li>Re-run the test:<pre><code class=shell>$ rails test:system test test/controllers/pages_controller_test.rb
+Running via Spring preloader in process 53669
+Run options: --seed 17464
+
+# Running:
+
+E
+
+Error:
+PagesControllerTest#test_should_get_homepage:
+ActionController::MissingExactTemplate: PagesController#index is missing a template for request formats: text/html
+    test/controllers/pages_controller_test.rb:5:in `block in &lt;class:PagesControllerTest>'
+
+rails test test/controllers/pages_controller_test.rb:4
+
+Finished in 0.088892s, 11.2497 runs/s, 0.0000 assertions/s.
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+</code></pre></li><li>Create the view:<pre><code class=shell>$ echo 'Hello World!' > app/views/pages/index.html.erb
+</code></pre></li><li>Re-run the test:<pre><code class=shell>$ rails test:system test test/controllers/pages_controller_test.rb
+Running via Spring preloader in process 45601
+Run options: --seed 21618
+
+# Running:
+
+.
+
+Finished in 5.312918s, 0.1882 runs/s, 0.1882 assertions/s.
+1 runs, 1 assertions, 0 failures, 0 errors, 0 skips
+</code></pre> <strong>Note:</strong> Visiting <a href=http://localhost:3000>http://localhost:3000</a> in a web browser should display <code>Hello World!</code>.</li></ol><h3 id=[3]_refactor:_refactor_the_code>[3] Refactor: Refactor the code</h3><ol><li>Run all the tests: <br/><strong>Notes:</strong><ul><li>This ensures that all previously working code are still functioning properly along with the newly tested feature</li><li>This aspect is called <a href=https://en.wikipedia.org/wiki/Regression_testing rel=nofollow>Regression testing</a> which is done <em>before</em> and <em>after</em> refactoring<pre><code class=shell>$ rails test:system test
+Running via Spring preloader in process 54306
+Run options: --seed 3605
+
+# Running:
+.
+
+Finished in 1.300774s, 0.7688 runs/s, 0.7688 assertions/s.
+1 runs, 1 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></li></ul></li><li>Update the test:<pre><code class=ruby># File: test/controllers/pages_controller_test.rb
+require 'test_helper'
+
+class PagesControllerTest &lt; ActionDispatch::IntegrationTest
+  test "should get homepage" do
+    get root_path
+    assert_select "body", "Hello World!"
+  end
+end
+</code></pre> <strong>Note:</strong> It turns out, Rails has a method specifying the homepage (<code>root_path</code>)</li><li>Re-run the test:<pre><code class=shell>$ rails test:system test test/controllers/pages_controller_test.rb
+Running via Spring preloader in process 61390
+Run options: --seed 28144
+
+# Running:
+
+E
+
+Error:
+PagesControllerTest#test_should_get_homepage:
+NameError: undefined local variable or method `root_path' for #&lt;PagesControllerTest:0x00007f58b839c228>
+    test/controllers/pages_controller_test.rb:5:in `block in &lt;class:PagesControllerTest>'
+
+rails test test/controllers/pages_controller_test.rb:4
+
+Finished in 0.134513s, 7.4342 runs/s, 0.0000 assertions/s.
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+</code></pre></li><li>Refactor the routes:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  root "pages#index"
+
+  resources :pages
+end
+</code></pre> <strong>Note:</strong> The <code>resources</code> provides all the essential routes and <code>root</code> points the specific <code>Controller#Action</code> to the homepage.</li><li>Re-run the test:<pre><code class=shell>$ rails test:system test test/controllers/pages_controller_test.rb
+Running via Spring preloader in process 61531
+Run options: --seed 23743
+
+# Running:
+
+.
+
+Finished in 1.397421s, 0.7156 runs/s, 1.4312 assertions/s.
+1 runs, 2 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></li><li>Refactor the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  def index
+    @title = "Hello World!"
+  end
+end
+</code></pre> <strong>Note:</strong> Instead of hard coding the data to the views, the controller should be the one to decide what data to display in the views.</li><li>Re-run the test:<pre><code class=shell>$ rails test:system test test/controllers/pages_controller_test.rb
+Running via Spring preloader in process 61645
+Run options: --seed 8337
+
+# Running:
+
+.
+
+Finished in 1.285618s, 0.7778 runs/s, 1.5557 assertions/s.
+1 runs, 2 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></li><li>Refactor the view:<pre><code class=ruby>&lt;%# File: app/views/pages/index.html.erb %>
+&lt;%= @title %>
+</code></pre></li><li>Re-run the test:<pre><code class=shell>$ rails test:system test test/controllers/pages_controller_test.rb
+Running via Spring preloader in process 61804
+Run options: --seed 12510
+
+# Running:
+
+.
+
+Finished in 1.266433s, 0.7896 runs/s, 1.5792 assertions/s.
+1 runs, 2 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></li><li>Run all the tests:<pre><code class=shell>$ rails test:system test
+Running via Spring preloader in process 61892
+Run options: --seed 6429
+
+# Running:
+
+.
+
+Finished in 1.361797s, 0.7343 runs/s, 1.4686 assertions/s.
+1 runs, 2 assertions, 0 failures, 0 errors, 0 skips
+</code></pre> <strong>Note:</strong> Visiting <a href=http://localhost:3000>http://localhost:3000</a> in a web browser should still display <code>Hello World!</code>.</li></ol><h3 id=repeat>Repeat</h3><p>Repeat the same process on new test cases until the specification is met and requirements are achieved.</p><p><strong>Note:</strong> For a more detailed guideline about testing (e.g. terminologies, kinds of tests and other approaches), see <a href=https://guides.rubyonrails.org/testing.html rel=nofollow>Testing Rails Applications</a>.</p><p><strong>Congratulations!</strong> We've finally learned test-driven development (a.k.a. TDD) in Rails :)</p><h2>Bonus</h2><h3 id=documentation>Documentation</h3><p>Use the <code>rdoc</code> gem to generate documentation:</p><pre><code class=shell>$ rdoc -m README.md   \
+       -t 'rails-tdd' \
+       -o docs/       \
+       README.md      \
+       LICENSE        \
+       app/**/*.rb
+</code></pre><p><strong>Notes:</strong></p><ul><li><code>-m</code> is the initial page displayed</li><li><code>-t</code> is the browser title</li><li><code>-o</code> is the directory path</li><li>The homepage of generated html is then at <code>docs/index.html</code></li></ul><h3 id=better_reporting>Better reporting</h3><p>Use the <code>minitest-reporters</code> extension of <code>minitest</code> gem to display a more pleasant test output.</p><ol><li>Update the <code>Gemfile</code>:<pre><code class=ruby># File: Gemfile
+...
+group :test do
+  ...
+  gem 'minitest'
+  gem 'minitest-reporters'
+end
+...
+</code></pre></li><li>Install the gems:<pre><code class=shell>$ bundle
+</code></pre></li><li>Update test helper:<pre><code class=ruby># File: test/test_helper.rb
+...
+require 'minitest/reporters'
+
+Minitest::Reporters.use!
+
+class ActiveSupport::TestCase
+  ...
+end
+...
+</code></pre></li><li>Run all the tests:<pre><code class=shell>$ rails test:system test
+Running via Spring preloader in process 16887
+Started with run options --seed 5427
+
+  1/1: [==================================================] 100% Time: 00:00:00, Time: 00:00:00
+
+Finished in 0.82411s
+1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></li></ol><h3 id=automated_testing>Automated testing</h3><p>Use the <code>guard-minitest</code> extension of <code>guard</code> gem to automate running of tests when files are changed.</p><ol><li>Update the <code>Gemfile</code>:<pre><code class=ruby># File: Gemfile
+...
+group :test do
+  ...
+  gem 'guard'
+  gem 'guard-minitest'
+end
+...
+</code></pre></li><li>Install the gems:<pre><code class=shell>$ bundle
+</code></pre></li><li>Generate a <code>Guardfile</code>:<pre><code class=shell>$ guard init
+</code></pre></li><li>Uncomment <code>Rails 4</code>'s <code>watch</code> lines:<pre><code class=ruby>guard :minitest do
+  ...
+  # Rails 4
+  watch(%r{^app/(.+)\.rb$})                               { |m| "test/#{m[1]}_test.rb" }
+  watch(%r{^app/controllers/application_controller\.rb$}) { 'test/controllers' }
+  watch(%r{^app/controllers/(.+)_controller\.rb$})        { |m| "test/integration/#{m[1]}_test.rb" }
+  watch(%r{^app/views/(.+)_mailer/.+})                    { |m| "test/mailers/#{m[1]}_mailer_test.rb" }
+  watch(%r{^lib/(.+)\.rb$})                               { |m| "test/lib/#{m[1]}_test.rb" }
+  watch(%r{^test/.+_test\.rb$})
+  watch(%r{^test/test_helper\.rb$}) { 'test' }
+  ...
+end
+</code></pre></li><li>Run <code>guard</code> to automate running tests:<pre><code class=shell>$ guard
+Started with run options --guard --seed 46650
+
+  1/1: [==================================================] 100% Time: 00:00:00, Time: 00:00:00
+
+Finished in 0.83682s
+1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+
+[1] guard(main)>
+</code></pre> You should see a <code>Minitest results</code> notification.</li></ol><h3 id=linter>Linter</h3><p>Use the <code>rubocop-rails</code> extension of <code>rubocop</code> gem as linter that enforces Rails best practice and code conventions.</p><ol><li>Update the <code>Gemfile</code>:<pre><code class=ruby># File: Gemfile
+group :test do
+  ...
+  gem 'rubocop'
+  gem 'rubocop-rails_config'
+end
+</code></pre></li><li>Install the gems:<pre><code class=shell>$ bundle
+</code></pre></li><li>Run linter:<pre><code class=shell>$ rubocop -l
+</code></pre> <strong>Note:</strong> <code>-l</code> replaces Ruby's <code>-w</code> linter.</li></ol><h3 id=security>Security</h3><p>Use the <code>brakeman</code> gem to check possible security vulnerabilities.</p><ol><li>Update the <code>Gemfile</code>:<pre><code class=ruby># File: brakeman
+group :development do
+  ...
+  gem 'brakeman'
+end
+</code></pre></li><li>Check security:<pre><code class=shell>$ \
+brakeman -q
+brakeman -q -o security/index.html
+</code></pre> <strong>Notes:</strong><ul><li><code>-q</code> supresses warnings and just output the report</li><li><code>-o</code> writes the result in the specified file path</li><li><code>brakeman</code> returns a <code>non-zero exit</code> status when vulnerabilities are found</li><li>The generated html is then at <code>security/index.html</code></li></ul></li></ol><h3 id=code_coverage>Code coverage</h3><ul><li>Use the <code>simplecov</code> gem to measure the coverage of code that were executed during tests</li><li>Use the <code>simplecov-console</code> gem for a better console output (not just a percentage)</li><li>Update the <code>Gemfile</code>:<pre><code class=ruby># File: Gemfile
+...
+group :test do
+  ...
+  gem 'simplecov'
+  gem 'simplecov-console'
+end
+...
+</code></pre></li><li>Install the gems:<pre><code class=shell>$ bundle
+</code></pre></li><li>Update test helper file:<pre><code class=ruby># File: test/test_helper.rb
+ENV['RAILS_ENV'] ||= 'test'
+
+require 'simplecov'
+SimpleCov.start 'rails'
+SimpleCov.minimum_coverage 100
+SimpleCov.formatter = SimpleCov::Formatter::Console
+...
+</code></pre> <strong>Notes:</strong><ul><li>Put <code>simplecov</code> before any other <code>require</code>s</li><li><code>'rails'</code> is a profile containing predefined blocks of configuration</li><li><code>minimum_coverage</code> is the desired coverage percentage (e.g. <code>100</code>%)</li><li>^ It returns a <code>non-zero exit</code> status if the percentage was less than specified</li><li><code>formatter</code> is the custom format when displaying the coverage results</li></ul></li><li>Run the test:<pre><code class=shell>$ rails test:system test
+Running via Spring preloader in process 43616
+Started with run options --seed 22410
+
+  1/1: [==================================================] 100% Time: 00:00:00, Time: 00:00:00
+
+Finished in 0.96810s
+1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+
+COVERAGE:   7.41% -- 2/27 lines in 9 files
+
++----------|----------------------------------------------|-------|--------|---------+
+| coverage | file                                         | lines | missed | missing |
++----------|----------------------------------------------|-------|--------|---------+
+|   0.00%  | app/channels/application_cable/channel.rb    | 4     | 4      | 1-4     |
+|   0.00%  | app/channels/application_cable/connection.rb | 4     | 4      | 1-4     |
+|   0.00%  | app/controllers/application_controller.rb    | 2     | 2      | 1-2     |
+|   0.00%  | app/controllers/pages_controller.rb          | 5     | 5      | 1-5     |
+|   0.00%  | app/helpers/application_helper.rb            | 2     | 2      | 1-2     |
+|   0.00%  | app/helpers/pages_helper.rb                  | 2     | 2      | 1-2     |
+|   0.00%  | app/jobs/application_job.rb                  | 2     | 2      | 1, 7    |
+|   0.00%  | app/mailers/application_mailer.rb            | 4     | 4      | 1-4     |
++----------|----------------------------------------------|-------|--------|---------+
+1 file(s) with 100% coverage not shown
+Coverage (7.41%) is below the expected minimum coverage (100.00%).
+SimpleCov failed with exit 2
+</code></pre> <strong>Note:</strong> A generated <code>html</code> version is then at <code>coverage/index.html</code>.</li></ul><h3 id=metrics,_monitoring,_and_alerting>Metrics, monitoring, and alerting</h3><p>For metrics, monitoring, and alerting, see <a href=https://appsignal.com rel=nofollow>AppSignal</a>.</p> </div> </div> <div class=pagination> <a href=/blog/ruby-on-rails-ci-cd class="btn btn-outline-secondary previous"> <i class="fas fa-angle-left"> </i> Ruby on Rails: CI / CD </a> <div class=separator> <i class="fas fa-yin-yang"> </i> </div> <a href=/blog/ruby-on-rails-from-zero-to-deploy class="btn btn-outline-secondary next">Ruby on Rails: From zero to deploy <i class="fas fa-angle-right"> </i> </a> </div> <hr/> <div class=post-comments> <h2>Comments</h2> <div id=disqus_thread> </div> <script>var disqus_config=function(){this.page.url="https://ejelome.com/blog/ruby-on-rails-test-driven-development",this.page.identifier="Ruby on Rails: Test-driven development"};!function(){var e=document,t=e.createElement("script");t.src="//ejelome.disqus.com/embed.js",t.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(t)}()</script> <noscript>Please enable JavaScript to view the <a href=//disqus.com/?ref_noscript rel=nofollow>comments powered by Disqus.</a> </noscript> </div> </div> </div> </div> <div class=footer> <p>Copyright © 2019 <a href=/ >ejelome</a>. Some rights reserved. </p> </div> <script src=/js/scripts.js></script> </body> </html> 

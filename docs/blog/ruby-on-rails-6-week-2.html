@@ -1,0 +1,492 @@
+<!doctype html> <html lang=en> <head> <meta charset=utf-8 /> <title>Ruby on Rails 6: Week 2 — ejelome</title> <meta content="Ruby on Rails 6: Week 2" name=title /> <meta content="Week 2 summary of the learned lessons from The Pragmatic Studio's Ruby on Rails 6 course." name=description /> <meta content=ejelome name=author /> <meta content="width=device-width,initial-scale=1" name=viewport /> <link href=/img/favicon.ico rel="shortcut icon" type=image/x-icon /> <link href=https://ejelome.com/blog/ruby-on-rails-6-week-2 rel=canonical /> <script>var script=document.createElement("script");function gtag(){dataLayer.push(arguments)}script.src="//googletagmanager.com/gtag/js?id=UA-144170438-1",document.head.appendChild(script),window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-144170438-1")</script> <script src=https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js async data-ad-client=ca-pub-3560971753878587></script> <link href=/css/styles.css rel=stylesheet /> </head> <body class=posts> <div class=wrapper> <div class=header> <a href=/ class=navbar-brand> <img alt=ejelome class=site-logo height=64 src=/img/logo.png width=64 /> </a> <div class=site-info> <a href=/ class=site-title>ejelome</a> <p class=site-tagline>Research, Design and Development</p> </div> <ul class=social-media> <li class=github> <a href=https://github.com/ejelome class=btn data-placement=top data-toggle=tooltip title="GitHub Profile" rel=nofollow> <i class="fa-2x fab fa-github"> </i> </a> </li> <li class=youtube> <a href=https://www.youtube.com/channel/UCgqy7fcflZb5hhfLAUmlc5g class=btn data-placement=top data-toggle=tooltip title="Youtube Channel" rel=nofollow> <i class="fa-2x fab fa-youtube"> </i> </a> </li> <li class=linkedin> <a href=https://linkedin.com/in/ejelome class=btn data-placement=top data-toggle=tooltip title="LinkedIn Profile" rel=nofollow> <i class="fa-2x fab fa-linkedin"> </i> </a> </li> </ul> </div> <div class=siri-container> </div> <div class="nav site-nav"> <ul class=list-inline> <li class=list-inline-item> <a href=/ >Home</a> </li> <li class=list-inline-item> <a href=/about>About</a> </li> <li class=list-inline-item> <a href=/archives>Archives</a> </li> </ul> </div> <div class="breadcrumb breadcrumbs"> <a href=/ >Home</a> <span class=separator> <i class="separator fa-caret-right fas"> </i> </span> <a href=/blog>Blog</a> <span class=separator> <i class="separator fa-caret-right fas"> </i> </span> <strong class=active>Ruby on Rails 6: Week 2</strong> </div> <div class=main> <div class=sidebar> <div class="sticky-top toc"> <strong>Table of Contents</strong> </div> </div> <div class=content> <h1>Ruby on Rails 6: Week 2</h1> <div class=post-content> <div class=post-meta> <span class=author> <i class="fas fa-user"> </i> <a href=/about#about data-toggle=tooltip data-placement=top>ejelome</a> </span> <span class=separator>/</span> <span class=published> <i class="fa-clock far"> </i> <time data-placement=top data-toggle=tooltip datetime=2019-10-06T00:00Z title="Published Date">October 6, 2019</time>  <span class=separator>/</span> <span class=tags> <i class="fas fa-tags"> </i> <a href=/tags/research class=tag data-placement=top data-toggle=tooltip title="Posts tagged with research">research</a> <span class=separator>▪</span> <a href=/tags/ruby class=tag data-placement=top data-toggle=tooltip title="Posts tagged with ruby">ruby</a> <span class=separator>▪</span> <a href=/tags/ruby-on-rails class=tag data-placement=top data-toggle=tooltip title="Posts tagged with ruby-on-rails">ruby-on-rails</a> <span class=separator>▪</span> <a href=/tags/web-application-framework class=tag data-placement=top data-toggle=tooltip title="Posts tagged with web-application-framework">web-application-framework</a> </span> </div> <div class="jumbotron post-summary"> <h2>Summary</h2> <p> This document is the continuation of Ruby on Rails 6: Week 1 and will be about 1) stylesheet and image assets 2) routes, 3) forms and 4) and partials. </p> </div> <hr/> <div class=content-block> <p><strong>Note:</strong> This is the continuation of <a href=ruby-on-rails-6-week-1 rel=nofollow>Ruby on Rails 6: Week 1</a>.</p><p>This document will be the week 2 summary of the learned lessons from <a href=https://pragmaticstudio.com rel=nofollow>The Pragmatic Studio</a>'s <a href=https://pragmaticstudio.com/courses/rails rel=nofollow>Ruby on Rails 6</a> course.</p><p>The number of lessons look lesser but in fact, half of them consists of multiple videos to make sense of <a href=https://en.wikipedia.org/wiki/Create,_read,_update_and_delete rel=nofollow>CRUD</a> in Rails.</p><h2>Style Sheet and Image Assets</h2><h3 id=gem>Gem</h3><p>Install a CSS framework:</p><pre><code class=shell>$ bundle add tachyons-rails
+</code></pre><p><strong>Notes:</strong></p><ul><li><code>bundle add</code> will add the gem to the <code>Gemfile</code> then execute <code>bundle install</code></li><li>In this example, we installed <a href=https://tachyons.io rel=nofollow>tachyons</a></li></ul><h3 id=images>Images</h3><ol><li>Add image(s):<pre><code class=shell>$ wget https://ejelome.com/img/logo.png -P app/assets/images/
+</code></pre> <strong>Notes:</strong><ul><li>The image directory is located at <code>app/assets/images/</code></li><li><code>wget</code> is a CLI network downloader and <code>-P</code> specifies the destination path</li></ul></li><li>Update the base html:<pre><code class=html>&lt;%# File: app/views/layouts/application.html.erb %>
+&lt;!DOCTYPE html>
+&lt;html>
+    &lt;head>
+        &lt;title>Ror6Course&lt;/title>
+        &lt;%= csrf_meta_tags %>
+        &lt;%= csp_meta_tag %>
+        &lt;%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+        &lt;%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    &lt;/head>
+    &lt;body>
+        &lt;header>
+            &lt;a href="/">
+              &lt;%= image_tag("logo") %>
+            &lt;/a>
+        &lt;/header>
+        &lt;main>
+            &lt;%= yield %>
+        &lt;/main>
+        &lt;footer>
+            &lt;p>Copyright &ampcopy;
+                &lt;%= Time.now.year %>
+                &lt;a href="/">Ror6Course&lt;/a>.
+                Some rights reserved.
+            &lt;/p>
+        &lt;/footer>
+    &lt;/body>
+&lt;/html>
+</code></pre> <strong>Notes:</strong><ul><li>The <code>image_tag</code> looks for the image with similar name in the image directory</li><li>The base html is located at <code>app/views/layouts/application.html.erb</code></li></ul></li></ol><h3 id=style_sheets>Style Sheets</h3><p>Add style sheet(s):</p><pre><code class=shell># File: app/assets/stylesheets/global.scss
+$ echo '
+$bg-color: #EEEEEE;
+$font-color: #111111;
+
+body {
+  background: $bg-color;
+  color: $font-color;
+}
+' > app/assets/stylesheets/global.scss
+</code></pre><p><strong>Notes:</strong></p><ul><li>The style sheets are located at <code>app/assets/stylesheets/</code></li><li>The style sheets in the directory are bundled using the directives specified in <code>app/assets/stylesheets/application.css</code></li><li>The <code>*= require_tree .</code> directive includes all the style sheets in the directory</li><li>The <code>*= require_self</code> directive simply includes itself after all were included</li><li>Use the app-specific style sheet to only affect its pages (e.g. <code>app/assets/stylesheets/pages.scss</code>)</li></ul><h3 id=default_database_values>Default database values</h3><ol><li>Update the seeds file:<pre><code class=ruby># File: db/seeds.rb
+Page.create!(
+  [
+    {
+      title: "Hello World!",
+      slug: "hello-world",
+      message: "Foo Bar Baz",
+      excerpt: "Foo..."
+    },
+    {
+      title: "Crappy World!",
+      slug: "crappy-world",
+      message: "Qux Quux Quuz",
+      excerpt: "Qux..."
+    }
+  ]
+)
+</code></pre> <strong>Notes:</strong><ul><li>The seeds file is located at <code>db/seeds.rb</code></li><li>The <code>create!</code> method is similar to the <code>create</code> method except that it raises an exception when it fails</li><li>The default values specified in <code>db/seeds.rb</code> are applied to the <code>development</code> database</li></ul></li><li>Populate the database:<pre><code class=shell>$ rails db:reset
+</code></pre> <strong>Notes:</strong><ul><li>The <code>db:reset</code> drops the database, applies the migration, then loads the seed data</li><li>Use <code>db:seed</code> to create new sets of seeds (duplicates)</li><li>Use <code>db:seed:replant</code> to empty all tables and re-seed</li></ul></li></ol><h2>Routes</h2><h3 id=show_page>Show Page</h3><ol><li>Visit the desired URL (e.g. <a href=http://localhost:3000/pages/1>http://localhost:3000/pages/1</a>) <br/>You should get an error:<pre><code class=html>Routing Error
+
+No route matches [GET] "/pages/1"
+</code></pre></li><li>Add the route:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  ...
+  get "pages/:id" => "pages#show"
+end
+</code></pre> <strong>Notes:</strong><ul><li>The <code>:id</code> is a variable that acts as a placeholder holding the value of its position (e.g. <code>1</code>)</li><li>The <code>#show</code> action is a view intended to <strong>show</strong> the complete detail of a specific primary key</li></ul></li><li>Reload the browser <br/>You should get another error:<pre><code class=html>Routing Error
+
+The action 'show' could not be found for PagesController
+</code></pre></li><li>Add the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  ...
+  def show
+    @page = Page.find(params[:id])
+  end
+end
+</code></pre> <strong>Notes:</strong><ul><li>Unlike <code>index</code> displaying a list (<code>@pages</code>), <code>show</code> is only concerned with one (<code>@page</code>)</li><li>The <code>find</code> method looks for a row in the database using its argument as primary key</li><li>The <code>params</code> is a hash containing the variables (placeholders) as key/value pairs</li><li>Use the <code>fail</code> method to force Rails to raise an exception, to inspect the contents of <code>params</code></li></ul></li><li>Reload the browser <br/>You should get another error:<pre><code class=html>No template for interactive request
+
+PagesController#show is missing a template for request formats: text/html
+</code></pre></li><li>Create the view:<pre><code class=html># File: app/views/pages/show.html.erb
+$ echo '
+&lt;h1>&lt;%= title(@page) %>&lt;/h1>
+&lt;p>&lt;%= @page.message %>&lt;/p>
+' > app/views/pages/show.html.erb
+</code></pre></li><li>Reload the browser <br/>You should see the text:<pre><code class=html>Hello World!
+
+Foo Bar Baz
+</code></pre></li></ol><h3 id=linking_pages>Linking Pages</h3><ul><li>Use the <code>link_to</code> method to generated dynamic URLs:<pre><code class=html>&lt;%= link_to "Pages", "/pages" %>
+
+&lt;!--
+Equivalent to:
+&lt;a href="/pages">Pages&lt;/a>
+-->
+</code></pre> <strong>Notes:</strong><ul><li>The <code>link_to</code> method's arguments, by convention, should not be wrapped in parens</li><li>Avoiding hard-coding paths by using routes to dynamically generate URLs</li></ul></li><li>Visit the defined routes (<a href=http://localhost:3000/rails/info/routes rel=nofollow>/rails/info/routes</a>): <br/> <br/><strong>Notes:</strong><ul><li>The defined routes displays all of the application's URLs</li><li>Helper <code>Path</code> (e.g. <code>pages_path</code> for relative url)</li><li>Helper <code>Url</code> (e.g. <code>pages_url</code> for full url)</li><li>HTTP Verb (e.g. <code>GET</code>, <code>POST</code>, <code>PATCH</code>, <code>PUT</code>, <code>DELETE</code>)</li><li>Path Match (e.g. <code>/pages(.:format)</code>)</li><li><code>.:format</code> are any optional characters that might be included in the pattern</li><li>Controller#Action (e.g. <code>pages/#show</code>) that is executed when the URL is visited</li></ul></li><li>Use the routes' path method (e.g. <code>pages_path</code>) instead of a hard-coded path:<pre><code class=html>&lt;%= link_to "Pages", pages_path %>
+
+&lt;!--
+Generates:
+&lt;a href="/pages">Pages&lt;/a>
+-->
+</code></pre></li><li>Assign an alias to a blank route:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  ...
+  get "pages/:id" => "pages#show", as: "page"
+end
+</code></pre> <strong>Note:</strong> The alias should be singular since the route is only dealing with a one thing.</li><li>Use the route alias to generate a URL with that route:<pre><code class=html>&lt;%# File: app/views/pages/index.html.erb %>
+&lt;ul>
+    &lt;% @pages.each do |page| %>
+    &lt;li>
+        &lt;%= link_to page.title, page %>
+    &lt;/li>
+    &lt;% end %>
+&lt;/ul>
+</code></pre> <strong>Notes:</strong><ul><li>The <code>*_path</code> method automatically maps the <code>id</code> (primary key) from the passed object (e.g. <code>page</code>)</li><li>Rails uses the singular path (e.g. <code>page_path</code>) when the 2nd argument of <code>link_to</code> method is the model object</li></ul></li><li>Use the <code>root</code> route in to map a route to the index page of the application:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  root "pages#index"
+
+  get "pages" => "pages#index"
+  get "pages/:id" => "pages#show", as: "page"
+end
+</code></pre> Visiting <a href=http://localhost:3000>http://localhost:3000</a> is now similar to <a href=http://localhost:3000/pages>http://localhost:3000/pages</a>.</li><li>Use the <code>root_path</code> to wrap the application logo to point to the index page:<pre><code class=html>&lt;%# File: app/views/layouts/application.html.erb %>
+...
+&lt;%= link_to image_tag("logo"), root_path %>
+...
+</code></pre></li></ul><h3 id=routes_in_console>Routes in console</h3><pre><code class=ruby>$ rails c
+ > # pages#index (relative path):
+ > app.pages_path
+=> "/pages"
+
+ > # pages#index (full url):
+ > app.pages_url
+=> "http://www.example.com/pages"
+
+ > # pages#show (relative path):
+ > app.page_path(Page.find(1))
+  Page Load (0.1ms)  SELECT "pages".* FROM "pages" WHERE "pages"."id" = ? LIMIT ?  [["id", 1], ["LIMIT", 1]]
+ => "/pages/1"
+
+ > # pages#show (full url):
+ > app.page_url(Page.find(1))
+  Page Load (0.3ms)  SELECT "pages".* FROM "pages" WHERE "pages"."id" = ? LIMIT ?  [["id", 1], ["LIMIT", 1]]
+ => "http://www.example.com/pages/1"
+
+ > # root path:
+ > app.root_path
+=> "/"
+</code></pre><h3 id=the_resources_method>The resources method</h3><p><strong>Notes:</strong></p><ul><li>The method <code>resources</code> creates the seven different routes that is mapped to the controller</li></ul><h4 id=example_setup>Example setup</h4><p>Use <code>resources</code> method with the controller (e.g. <code>:pages</code>) as a keyword argument:</p><pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  root "pages#index"
+
+  resources :pages
+end
+</code></pre><h4 id=example_result>Example result</h4><p>The <code>resources</code> method automates the manual process of incrementally including routes:</p><table><thead><tr><th style=text-align:left>HTTP Verb</th><th style=text-align:left>Path (Resource)</th><th style=text-align:left>Controller#Action</th><th style=text-align:left>Purpose (Entity)</th></tr></thead><tbody><tr><td style=text-align:left>GET</td><td style=text-align:left>/pages</td><td style=text-align:left>pages#index</td><td style=text-align:left>List entities</td></tr><tr><td style=text-align:left>GET</td><td style=text-align:left>/pages/new</td><td style=text-align:left>pages#new</td><td style=text-align:left>Show create form</td></tr><tr><td style=text-align:left>POST</td><td style=text-align:left>/pages</td><td style=text-align:left>pages#create</td><td style=text-align:left>Create an entity</td></tr><tr><td style=text-align:left>GET</td><td style=text-align:left>/pages/:id</td><td style=text-align:left>pages#show</td><td style=text-align:left>Display an entity</td></tr><tr><td style=text-align:left>GET</td><td style=text-align:left>/pages/:id/edit</td><td style=text-align:left>pages#edit</td><td style=text-align:left>Show edit form</td></tr><tr><td style=text-align:left>PATCH</td><td style=text-align:left>/pages/:id</td><td style=text-align:left>pages#update</td><td style=text-align:left>Update an entity</td></tr><tr><td style=text-align:left>DELETE</td><td style=text-align:left>/pages/:id</td><td style=text-align:left>pages#delete</td><td style=text-align:left>Delete an entity</td></tr></tbody></table><h2>Forms</h2><h3 id=edit_page>Edit Page</h3><ol><li>Visit the desired URL (e.g. <a href=http://localhost:3000/pages/1/edit>http://localhost:3000/pages/1/edit</a>) <br/>You should get an error:<pre><code class=html>Routing Error
+
+No route matches [GET] "/pages/1/edit"
+</code></pre></li><li>Add the route:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  ...
+  get "pages/:id/edit" => "pages#edit", as: "edit_page"
+end
+</code></pre></li><li>Update <code>show</code>'s view to link to <code>edit</code> view:<pre><code class=html>&lt;%# File: app/views/pages/show.html.erb %>
+&lt;h1>&lt;%= title(@page) %>&lt;/h1>
+&lt;p>&lt;%= @page.message %>&lt;/p>
+&lt;%= link_to "Edit", edit_page_path(@page) %>
+</code></pre></li><li>Reload the browser <br/>You should get another error:<pre><code class=html>Routing Error
+
+The action 'edit' could not be found for PagesController
+</code></pre></li><li>Add the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  ...
+  def edit
+    @page = Page.find(params[:id])
+  end
+end
+</code></pre> <strong>Note:</strong> The <code>edit</code> action has similar block as <code>show</code> action.</li><li>Reload the browser <br/>You should get another error:<pre><code class=html>No template for interactive request
+
+PagesController#edit is missing a template for request formats: text/html
+</code></pre></li><li>Create the view:<pre><code class=html># File: app/views/pages/edit.html.erb
+$ echo '
+&lt;h1>Edit &lt;%= title(@page) %>&lt;/h1>
+&lt;%= form_with(model: @page, local: true) do |form| %>
+    &lt;ul>
+        &lt;li>
+            &lt;%= form.label :title %>
+            &lt;br />
+            &lt;%= form.text_field :title %>
+        &lt;/li>
+        &lt;li>
+            &lt;%= form.label :slug %>
+            &lt;br />
+            &lt;%= form.text_field :slug %>
+        &lt;/li>
+        &lt;li>
+            &lt;%= form.label :message %>
+            &lt;br />
+            &lt;%= form.text_area :message, rows: 5 %>
+        &lt;/li>
+        &lt;li>
+            &lt;%= form.label :excerpt %>
+            &lt;br />
+            &lt;%= form.text_area :excerpt, rows: 5 %>
+        &lt;/li>
+    &lt;/ul>
+    &lt;%= form.submit %>
+&lt;% end %>
+' > app/views/pages/edit.html.erb
+</code></pre> <strong>Notes:</strong><ul><li>The <code>form_with</code> view helper method combines the use cases of <code>form_for</code> and <code>form_tag</code> methods</li><li>The <code>form_with</code> passes a form builder through a block parameter (e.g. <code>|form|</code>)</li><li>The passed form builder provide methods to generate html forms for model attributes</li><li>The keywords (e.g. <code>:title</code>) are the model attributes that the form builder will use</li><li>Each form build methods can take optional parameters (e.g. <code>rows: 5</code>) to customize form fields</li><li>By default, <code>form_with</code> submits the form with <code>AJAX</code> request</li><li>Specifying the option <code>local: true</code> submits the form normally</li><li>The <code>submit</code> method uses <code>Update ...</code> as text because the <code>form_with</code> view helper method recognizes that an entity already exists in the database</li></ul></li><li>Reload the browser <br/>You should see the text:<pre><code class=html>Edit Hello World!
+
+* Title
+  ----------------
+  | Hello World! |
+  ----------------
+* Slug
+  ----------------
+  | hello-world  |
+  ----------------
+* Message
+  ----------------
+  | Foo Bar Baz  |
+  |              |
+  |              |
+  |              |
+  |              |
+  ----------------
+* Excerpt
+  ----------------
+  | Foo...       |
+  |              |
+  |              |
+  |              |
+  |              |
+  ----------------
+
+-------------
+[Update Page]
+-------------
+</code></pre></li></ol><h3 id=update_page>Update Page</h3><ol><li>Click the <code>Update Page</code> button to submit the form <br/>You should get an error:<pre><code class=html>Routing Error
+
+No route matches [PATCH] "/pages/1"
+</code></pre></li><li>Add the route:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  ...
+  patch "pages/:id" => "pages#update"
+end
+</code></pre> <strong>Notes:</strong><ul><li>In Rails, <code>PATCH</code> is the HTTP verb used when updating a model attribute</li><li>The pattern for update is similar to show, except that it uses a different verb to do a different action</li><li>Rails overrides the <code>form[method=post]</code> with <code>input[name="_method" value="patch"]</code> to implement <code>PATCH</code></li><li>The patch route doesn't need an alias (<code>as:</code>) since it is not used to generate a link</li></ul></li><li>Reload the browser and confirm form re-submission <br/>You should get another error:<pre><code class=html>Routing Error
+
+The action 'update' could not be found for PagesController
+</code></pre></li><li>Add the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  ...
+  def update
+    @page = Page.find(params[:id])
+    @page.update(params[:page])
+  end
+end
+</code></pre> <strong>Notes:</strong><ul><li>In Rails, instance variables in controllers (e.g. <code>@page</code>) are gone once the action is executed</li><li>The instance variables, though look similar on each controller action, are not really related</li><li>The <code>params</code> object contains the form values as a hash and named after the model (e.g. <code>:page</code>)</li></ul></li><li>Reload the browser and confirm form re-submission <br/>You should get another error:<pre><code class=html>ActiveModel::ForbiddenAttributesError in PagesController#update
+
+ActiveModel::ForbiddenAttributesError
+</code></pre> <strong>Notes:</strong><ul><li>For security reasons, Rails doesn't allow mass assignment of attributes to be updated</li><li>Rails require the attributes that we want to be updated to be explicitly specified</li></ul></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  ...
+  def update
+    @page = Page.find(params[:id])
+    page_params = params.require(:page).permit(
+      :title,
+      :slug,
+      :message,
+      :excerpt
+    )
+    @page.update(page_params)
+  end
+end
+</code></pre> <strong>Notes:</strong><ul><li>The <code>require</code> method checks if the keyword exist in the hash, otherwise, it raises an error</li><li>The <code>permit</code> method takes a comma-separated attributes as keys that are allowed to be updated</li><li>Any form fields that are submitted with the form but not found in the <code>permit</code> method are all ignored</li><li>To allow all attributes to be updated, use the destructive (side-effect) version: <code>permit!</code></li></ul></li><li>Reload the browser and confirm form re-submission <br/>You should not see any error but nothing will seem to work (but it does, look at the console):<pre><code class=shell>...
+No template found for PagesController#update, rendering head :no_content
+Completed 204 No Content in 5ms (ActiveRecord: 0.3ms | Allocations: 1125)
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  ...
+  def update
+    @page = Page.find(params[:id])
+    page_params = params.require(:page).permit(
+      :title,
+      :slug,
+      :message,
+      :excerpt
+    )
+    @page.update(page_params)
+    redirect_to page_path(@page)
+  end
+end
+</code></pre> <strong>Notes:</strong><ul><li>The <code>redirect_to</code> method redirects an action to another</li><li>Specifying just the model in the <code>redirect_to</code> assumes it's from the <code>show</code> route path</li><li>Based on that assumption, <code>redirect_to @page</code> is similar to <code>redirect_to page_path(@page)</code></li><li>In Rails, non-<code>GET</code> actions are redirected (using <code>redirect_to</code>) instead of rendering views</li></ul></li><li>Reload the browser <br/>You should be redirected to the show page (e.g. <a href=http://localhost:3000/pages/1>http://localhost:3000/pages/1</a>).</li></ol><h3 id=new_page>New Page</h3><ol><li>Visit the desired URL (e.g. <a href=http://localhost:3000/pages/new>http://localhost:3000/pages/new</a>) <br/>You should get an error:<pre><code class=html>ActiveRecord::RecordNotFound in PagesController#new
+
+Couldn't find Page with 'id'=new
+</code></pre></li><li>Add the route:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  ...
+  get "pages/new" => "pages#new", as: "new_page"
+  ...
+end
+</code></pre> <strong>Note:</strong> The <code>new</code> route must come before the <code>show</code> route because the routes are read from top to bottom.</li><li>Reload the browser <br/>You should get another error:<pre><code class=html>Routing Error
+
+The action 'new' could not be found for PagesController
+</code></pre></li><li>Add the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  ...
+  def new
+    @page = Page.new
+  end
+end
+</code></pre> <strong>Note:</strong> The instance variable is just assigned with an empty class instance.</li><li>Reload the browser <br/>You should get another error:<pre><code class=html>No template for interactive request
+
+PagesController#new is missing a template for request formats: text/html
+</code></pre></li><li>Create the view:<pre><code class=html># File: app/views/pages/new.html.erb
+$ echo '
+&lt;h1>New Page&lt;/h1>
+&lt;%= form_with(model: @page, local: true) do |form| %>
+    &lt;ul>
+        &lt;li>
+            &lt;%= form.label :title %>
+            &lt;br />
+            &lt;%= form.text_field :title %>
+        &lt;/li>
+        &lt;li>
+            &lt;%= form.label :slug %>
+            &lt;br />
+            &lt;%= form.text_field :slug %>
+        &lt;/li>
+        &lt;li>
+            &lt;%= form.label :message %>
+            &lt;br />
+            &lt;%= form.text_area :message, rows: 5 %>
+        &lt;/li>
+        &lt;li>
+            &lt;%= form.label :excerpt %>
+            &lt;br />
+            &lt;%= form.text_area :excerpt, rows: 5 %>
+        &lt;/li>
+    &lt;/ul>
+    &lt;%= form.submit %>
+&lt;% end %>
+' > app/views/pages/new.html.erb
+</code></pre> <strong>Note:</strong> The <code>submit</code> method uses <code>Create ...</code> as text because the <code>form_with</code> view helper method recognizes that the entity doesn't exist yet in the database.</li><li>Reload the browser <br/>You should see the text:<pre><code class=html>New Page
+
+* Title
+  ----------------
+  |              |
+  ----------------
+* Slug
+  ----------------
+  |              |
+  ----------------
+* Message
+  ----------------
+  |              |
+  |              |
+  |              |
+  |              |
+  |              |
+  ----------------
+* Excerpt
+  ----------------
+  |              |
+  |              |
+  |              |
+  |              |
+  |              |
+  ----------------
+
+-------------
+[Create Page]
+-------------
+</code></pre></li></ol><h3 id=create_page>Create Page</h3><ol><li>Click the <code>Create Page</code> button to submit the form <br/>You should get an error:<pre><code class=html>Routing Error
+
+No route matches [POST] "/pages"
+</code></pre></li><li>Add the route:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  ...
+  post "pages" => "pages#create"
+end
+</code></pre> <strong>Note:</strong> The post route doesn't need an alias (<code>as:</code>) since it is not used to generate a link.</li><li>Reload the browser and confirm form re-submission <br/>You should get another error:<pre><code class=html>Routing Error
+
+The action 'create' could not be found for PagesController
+</code></pre></li><li>Add the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  ...
+  def create
+    @page = Page.create(params[:page])
+    redirect_to @page
+  end
+end
+</code></pre></li><li>Reload the browser and confirm form re-submission <br/>You should get another error:<pre><code class=html>ActiveModel::ForbiddenAttributesError in PagesController#create
+
+ActiveModel::ForbiddenAttributesError
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  ...
+  def create
+    page_params = params.require(:page).permit(
+      :title,
+      :slug,
+      :message,
+      :excerpt
+    )
+    @page = Page.create(page_params)
+    redirect_to @page
+  end
+end
+</code></pre></li><li>Re-factor the duplicate <code>page_params</code> as a <code>private</code> method:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  ...
+  def update
+    @page = Page.find(params[:id])
+    @page.update(page_params)
+    redirect_to page_path(@page)
+  end
+
+  ...
+
+  def create
+    @page = Page.create(page_params)
+    redirect_to @page
+  end
+
+  private
+
+  def page_params
+    params.require(:page).permit(
+      :title,
+      :slug,
+      :message,
+      :excerpt
+    )
+  end
+end
+</code></pre> <strong>Notes:</strong><ul><li>The <code>private</code> method prevents the methods below it to be callable outside the class</li><li>The redundant variable turned method (e.g. <code>page_params</code>) is a virtual attribute accessible on other methods</li></ul></li><li>Reload the browser and confirm form re-submission <br/>You should be redirected to its show page (e.g. <a href=http://localhost:3000/pages/3>http://localhost:3000/pages/3</a>).</li><li>Add an <code>Add</code> button on the index view<pre><code class=html>&lt;%# File: app/views/pages/index.html.erb %>
+...
+&lt;%= link_to "Add", new_page_path(@page) %>
+</code></pre> This will help as a convenience to go to the new page and create a new page.</li></ol><h3 id=destroy_page>Destroy Page</h3><ol><li>Add a delete link on a <code>GET</code> page: <br/><strong>Note:</strong> Except for the <code>new</code> page since there's nothing to delete from there.<pre><code class=html>&lt;%# File: app/views/pages/show.html.erb %>
+...
+&lt;%= link_to "Delete", @page, method: :delete,
+                      data: { confirm: "Are you sure you want to delete this page?" } %>
+</code></pre> <strong>Notes:</strong><ul><li>The <code>@page</code> is a shortcut for <code>page_path(@page)</code> since it already know it's in the <code>page_path</code></li><li>The <code>method: :delete</code> is required to tell that the link is not a <code>GET</code> action but a <code>DELETE</code> action</li><li>The <code>data</code> contains custom data attributes (<code>data-*</code>) used by JavaScript to fake <code>DELETE</code> request</li></ul></li><li>Click the <code>Delete</code> link then click <code>OK</code> <br/>You should get an error:<pre><code class=html>Routing Error
+
+No route matches [DELETE] "/pages/1"
+</code></pre></li><li>Add the route:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  ...
+  delete "pages/:id" => "pages#destroy"
+end
+</code></pre></li><li>Refresh the page then click <code>Continue</code> <br/>You should get another error:<pre><code class=html>Unknown action
+
+The action 'destroy' could not be found for PagesController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+...
+def destroy
+  @page = Page.find(params[:id])
+  @page.destroy
+  redirect_to pages_path
+end
+...
+</code></pre></li><li>Refresh the page then click <code>Continue</code> <br/>The page should be deleted and redirect to the index page.</li></ol><h2>Partials</h2><ol><li>Create a partial template:<pre><code class=html>&lt;%# File: app/views/pages/_form.html.erb %>
+&lt;%= form_with(model: page, local: true) do |form| %>
+    &lt;ul>
+        &lt;li>
+            &lt;%= form.label :title %>
+            &lt;br />
+            &lt;%= form.text_field :title %>
+        &lt;/li>
+        &lt;li>
+            &lt;%= form.label :slug %>
+            &lt;br />
+            &lt;%= form.text_field :slug %>
+        &lt;/li>
+        &lt;li>
+            &lt;%= form.label :message %>
+            &lt;br />
+            &lt;%= form.text_area :message, rows: 5 %>
+        &lt;/li>
+        &lt;li>
+            &lt;%= form.label :excerpt %>
+            &lt;br />
+            &lt;%= form.text_area :excerpt, rows: 5 %>
+        &lt;/li>
+    &lt;/ul>
+    &lt;%= form.submit %>
+&lt;% end %>
+</code></pre> <strong>Notes:</strong><ul><li>Partial template names must be prefixed by a single underscore (e.g. <code>_form.html.erb</code>)</li><li>Instead of using instance variables (e.g. <code>@page</code>) use a local variable (e.g. <code>page</code>)</li></ul></li><li>Replace duplicate forms with the partial template:<ul><li>On the <code>new</code> view:<pre><code class=html>&lt;%# File: app/views/pages/new.html.erb %>
+...
+&lt;%= render "form", page: @page %>
+</code></pre></li><li>On the <code>edit</code> view:<pre><code class=html>&lt;%# File: app/views/pages/edit.html.erb %>
+...
+&lt;%= render "form", page: @page %>
+</code></pre></li></ul></li></ol><p><strong>Notes:</strong></p><ul><li>Partial templates (or just <strong>partials</strong>) are re-usable part of views that can be used in other views</li><li>Treat partials as pure functions that returns a component (the chunks of views)</li><li>There is must be no underscore when referring to the partial template names</li><li>Prefix partial templates with its directory (e.g. <code>layouts/</code>) if it's not inside an app's view directory</li></ul><p>Let's continue to the third week: <a href=ruby-on-rails-6-week-3 rel=nofollow>Ruby on Rails 6: Week 3</a>.</p> </div> </div> <div class=pagination> <a href=/blog/ruby-on-rails-6-week-3 class="btn btn-outline-secondary previous"> <i class="fas fa-angle-left"> </i> Ruby on Rails 6: Week 3 </a> <div class=separator> <i class="fas fa-yin-yang"> </i> </div> <a href=/blog/ruby-on-rails-6-week-1 class="btn btn-outline-secondary next">Ruby on Rails 6: Week 1 <i class="fas fa-angle-right"> </i> </a> </div> <hr/> <div class=post-comments> <h2>Comments</h2> <div id=disqus_thread> </div> <script>var disqus_config=function(){this.page.url="https://ejelome.com/blog/ruby-on-rails-6-week-2",this.page.identifier="Ruby on Rails 6: Week 2"};!function(){var e=document,t=e.createElement("script");t.src="//ejelome.disqus.com/embed.js",t.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(t)}()</script> <noscript>Please enable JavaScript to view the <a href=//disqus.com/?ref_noscript rel=nofollow>comments powered by Disqus.</a> </noscript> </div> </div> </div> </div> <div class=footer> <p>Copyright © 2019 <a href=/ >ejelome</a>. Some rights reserved. </p> </div> <script src=/js/scripts.js></script> </body> </html> 

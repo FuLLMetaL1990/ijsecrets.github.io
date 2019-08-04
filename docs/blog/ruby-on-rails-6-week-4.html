@@ -1,0 +1,576 @@
+<!doctype html> <html lang=en> <head> <meta charset=utf-8 /> <title>Ruby on Rails 6: Week 4 — ejelome</title> <meta content="Ruby on Rails 6: Week 4" name=title /> <meta content="Week 4 summary of the learned lessons from The Pragmatic Studio's Ruby on Rails 6 course." name=description /> <meta content=ejelome name=author /> <meta content="width=device-width,initial-scale=1" name=viewport /> <link href=/img/favicon.ico rel="shortcut icon" type=image/x-icon /> <link href=https://ejelome.com/blog/ruby-on-rails-6-week-4 rel=canonical /> <script>var script=document.createElement("script");function gtag(){dataLayer.push(arguments)}script.src="//googletagmanager.com/gtag/js?id=UA-144170438-1",document.head.appendChild(script),window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-144170438-1")</script> <script src=https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js async data-ad-client=ca-pub-3560971753878587></script> <link href=/css/styles.css rel=stylesheet /> </head> <body class=posts> <div class=wrapper> <div class=header> <a href=/ class=navbar-brand> <img alt=ejelome class=site-logo height=64 src=/img/logo.png width=64 /> </a> <div class=site-info> <a href=/ class=site-title>ejelome</a> <p class=site-tagline>Research, Design and Development</p> </div> <ul class=social-media> <li class=github> <a href=https://github.com/ejelome rel=nofollow class=btn data-placement=top data-toggle=tooltip title="GitHub Profile"> <i class="fa-2x fab fa-github"> </i> </a> </li> <li class=youtube> <a href=https://www.youtube.com/channel/UCgqy7fcflZb5hhfLAUmlc5g rel=nofollow class=btn data-placement=top data-toggle=tooltip title="Youtube Channel"> <i class="fa-2x fab fa-youtube"> </i> </a> </li> <li class=linkedin> <a href=https://linkedin.com/in/ejelome rel=nofollow class=btn data-placement=top data-toggle=tooltip title="LinkedIn Profile"> <i class="fa-2x fab fa-linkedin"> </i> </a> </li> </ul> </div> <div class=siri-container> </div> <div class="nav site-nav"> <ul class=list-inline> <li class=list-inline-item> <a href=/ >Home</a> </li> <li class=list-inline-item> <a href=/about>About</a> </li> <li class=list-inline-item> <a href=/archives>Archives</a> </li> </ul> </div> <div class="breadcrumb breadcrumbs"> <a href=/ >Home</a> <span class=separator> <i class="separator fa-caret-right fas"> </i> </span> <a href=/blog>Blog</a> <span class=separator> <i class="separator fa-caret-right fas"> </i> </span> <strong class=active>Ruby on Rails 6: Week 4</strong> </div> <div class=main> <div class=sidebar> <div class="sticky-top toc"> <strong>Table of Contents</strong> </div> </div> <div class=content> <h1>Ruby on Rails 6: Week 4</h1> <div class=post-content> <div class=post-meta> <span class=author> <i class="fas fa-user"> </i> <a href=/about#about data-toggle=tooltip data-placement=top>ejelome</a> </span> <span class=separator>/</span> <span class=published> <i class="fa-clock far"> </i> <time data-placement=top data-toggle=tooltip datetime=2019-10-20T00:00Z title="Published Date">October 20, 2019</time>  <span class=separator>/</span> <span class=tags> <i class="fas fa-tags"> </i> <a href=/tags/research class=tag data-placement=top data-toggle=tooltip title="Posts tagged with research">research</a> <span class=separator>▪</span> <a href=/tags/ruby class=tag data-placement=top data-toggle=tooltip title="Posts tagged with ruby">ruby</a> <span class=separator>▪</span> <a href=/tags/ruby-on-rails class=tag data-placement=top data-toggle=tooltip title="Posts tagged with ruby-on-rails">ruby-on-rails</a> <span class=separator>▪</span> <a href=/tags/web-application-framework class=tag data-placement=top data-toggle=tooltip title="Posts tagged with web-application-framework">web-application-framework</a> </span> </div> <div class="jumbotron post-summary"> <h2>Summary</h2> <p> This document is the continuation of Ruby on Rails 6: Week 3 and will be about 1) user account model, 2) user signup, 3) edit user account, 4) sign in, 5) authentication, 6) current user, 7) sign out, 8) authorization and 9) admin users. </p> </div> <hr/> <div class=content-block> <p><strong>Note:</strong> This is the continuation of <a href=ruby-on-rails-6-week-3 rel=nofollow>Ruby on Rails 6: Week 3</a>.</p><p>This document will be the week 4 summary of the learned lessons from <a href=https://pragmaticstudio.com rel=nofollow>The Pragmatic Studio</a>'s <a href=https://pragmaticstudio.com/courses/rails rel=nofollow>Ruby on Rails 6</a> course.</p><h2>User Account Model</h2><ol><li>Create a new resource:<pre><code class=shell>$ rails g resource user username password:digest
+</code></pre> <strong>Note:</strong><ul><li>By default, fields are set to <code>string</code> type (e.g. <code>username</code> will be <code>string</code>)</li><li>The <code>password:digest</code> pair uniquely includes <code>has_secure_password</code> in the model</li><li>The <code>has_secure_password</code> add methods to set and authenticate passwords with <a href=https://en.wikipedia.org/wiki/Bcrypt rel=nofollow>bcrypt</a></li><li>The <code>password:digest</code> pair uniquely uses <code>:password_digest</code> as column name (not <code>:password</code>) in the migration file</li><li>The <code>password:digest</code> pair uniquely uses <code>password_digest: &lt;%= BCrypt::Password.create('secret') %></code> in the fixtures</li></ul></li><li>Apply the new migration:<pre><code class=shell>$ rails db:migrate
+</code></pre></li><li>Install the <code>bcrypt</code> gem:<pre><code class=shell>$ \
+# Uncomment bcrypt in Gemfile:
+sed -i "s/# gem 'bcrypt'/gem 'bcrypt'/g" Gemfile
+
+# Install the gem:
+bundle install
+</code></pre></li><li>Update model for validations:<pre><code class=ruby># File: app/models/user.rb
+class User &lt; ApplicationRecord
+  ...
+  validates :username, presence: true,
+                       uniqueness: { case_sensitive: false }
+  ...
+end
+</code></pre> <strong>Note:</strong><ul><li>The <code>presence</code> option requires the field to be filled</li><li>The <code>uniqueness</code> option ensures that the field is unique in the database</li><li>The <code>uniqueness</code> by default, is case sensitive, so we set it to <code>false</code></li></ul></li><li>Open Rails console:<pre><code class=shell>$ rails c
+</code></pre></li><li>Then test out the new resource:<pre><code class=ruby> > # Create a user with blank fields:
+ > u = User.create
+   (0.4ms)  SELECT sqlite_version(*)
+   (0.1ms)  begin transaction
+  User Exists? (0.1ms)  SELECT 1 AS one FROM "users" ...
+   (0.1ms)  rollback transaction
+=> #&lt;User id: nil, ...
+
+ > # Check the errors caused by validations:
+ > u.errors.full_messages
+=> ["Password can't be blank", "Username can't be blank"]
+
+ > # Create a valid user:
+ > u = User.create(username: "foobar", password: "bazqux")
+   (0.1ms)  begin transaction
+  User Exists? (0.2ms)  SELECT 1 AS one FROM "users" ...
+  User Create (0.2ms)  INSERT INTO "users" ("username", "password_digest", ...
+   (35.9ms)  commit transaction
+=> #&lt;User id: 1, username: "foobar", password_digest: [FILTERED], ...
+
+ > # Check the password:
+ > u.password
+=> "bazqux"
+
+ > # Confirm the password is hashed:
+ > u.password_digest
+=> "$2a$12$6tjss5ROGLRVayuhx0et8.p4f9CTx//lDwCbq5IYiTnFspOZTNXG6"
+
+ > # Map a new object from the database:
+ > reload!
+Reloading...
+=> true
+ > u = User.find(1)
+   (0.1ms)  SELECT sqlite_version(*)
+  User Load (0.2ms)  SELECT "users".* ...
+=> #&lt;User id: 1, ...
+
+ > # Check for the password field:
+ > u.password
+=> nil
+
+ > # Check for the password_digest:
+ > u.password_digest
+=> "$2a$12$6tjss5ROGLRVayuhx0et8.p4f9CTx//lDwCbq5IYiTnFspOZTNXG6"
+</code></pre> <strong>Notes:</strong><ul><li>The <code>has_secure_password</code> automatically added validations for the <code>password</code> field.</li><li>Notice that although the attribute used is <code>password</code>, the SQL used the field <code>password_digest</code></li><li>The <code>password</code> attribute from the <code>u.password</code> is not a field attribute, but a virtual attribute</li><li>Using <code>save</code> requires another virtual attribute called <code>password_confirmation</code> to validate <code>password</code></li></ul></li></ol><h2>User Sign Up</h2><h3 id=new>New</h3><ol><li>Visit the desired URL (e.g. <a href=http://localhost:3000/signup>http://localhost:3000/signup</a>) <br/>You should get an error:<pre><code class=html>Routing Error
+
+No route matches [GET] "/signup"
+</code></pre></li><li>Update the route:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  ...
+  resources :users
+  get "signup" => "users#new"
+end
+</code></pre> <strong>Note:</strong> The generated resources can be overridden by adding a specific route definition after it.</li><li>Reload the browser <br/>You should get another error:<pre><code class=html>Unknown action
+
+The action 'new' could not be found for UsersController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  def new
+    @user = User.new
+  end
+end
+</code></pre></li><li>Reload the browser <br/>You should get another error:<pre><code class=html>No template for interactive request
+
+UsersController#new is missing a template for request formats: text/html
+</code></pre></li><li>Create a partial template:<pre><code class=shell>$ \
+mkdir -p app/views/users/
+echo '
+&lt;%= form_with(model: user, local: true) do |form| %>
+    &lt;%= render "shared/errors", object: user %>
+    &lt;ul>
+        &lt;li>
+            &lt;%= form.label :username %>
+            &lt;br />
+            &lt;%= form.text_field :username %>
+        &lt;/li>
+        &lt;li>
+           &lt;%= form.label :password %>
+            &lt;br />
+            &lt;%= form.password_field :password %>
+        &lt;/li>
+        &lt;li>
+            &lt;%= form.label :password_confirmation %>
+            &lt;br />
+            &lt;%= form.password_field :password_confirmation %>
+        &lt;/li>
+    &lt;/ul>
+    &lt;%= form.submit %>
+&lt;% end %>
+' > app/views/users/_form.html.erb
+</code></pre></li><li>Create the view:<pre><code class=shell>$ \
+mkdir -p app/views/users/
+echo '
+&lt;h1>Sign Up&lt;/h1>
+&lt;%= render "form", user: @user %>
+' > app/views/users/new.html.erb
+</code></pre></li><li>Reload the browser <br/>You should see the text followed by a form:<pre><code class=html>Sign Up
+</code></pre></li></ol><h3 id=create>Create</h3><ol><li>Fill the form with valid values then click <code>Create User</code>: <br/>You should get an error:<pre><code class=html>Unknown action
+
+The action 'create' could not be found for UsersController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  ...
+  def create
+    @user = User.new(user_params)
+
+    if @user.save
+      redirect_to @user, notice: "Registration successful!"
+    else
+      render :new
+    end
+  end
+
+  private
+
+  def user_params
+    params.required(:user).permit(
+      :username,
+      :password,
+      :password_confirmation
+    )
+  end
+end
+</code></pre></li></ol><h3 id=show>Show</h3><ol><li>Reload the browser and confirm form re-submission <br/>You should get another error:<pre><code class=html>Unknown action
+
+The action 'show' could not be found for UsersController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  ...
+  def show
+    @user = User.find(params[:id])
+  end
+  ...
+end
+</code></pre></li><li>Reload the browser <br/>You should get another error:<pre><code class=html>No template for interactive request
+
+UsersController#show is missing a template for request formats: text/html
+</code></pre></li><li>Create the view:<pre><code class=shell>$ \
+mkdir -p app/views/users/
+echo '
+&lt;h1>Welcome &lt;%= @user.username %>!&lt;/h1>
+' > app/views/users/show.html.erb
+</code></pre></li><li>Reload the browser <br/>You should see the text:<pre><code class=html>Welcome &lt;username>!
+</code></pre></li></ol><h2>Edit User Account</h2><h3 id=edit>Edit</h3><ol><li>Visit the desired URL (e.g. <a href=http://localhost:3000/users/1/edit>http://localhost:3000/users/1/edit</a>) <br/>You should get an error:<pre><code class=html>Unknown action
+
+The action 'edit' could not be found for UsersController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  ...
+  def edit
+    @user = User.find(params[:id])
+  end
+  ...
+end
+</code></pre></li><li>Reload the browser <br/>You should get another error:<pre><code class=html>No template for interactive request
+
+UsersController#edit is missing a template for request formats: text/html
+</code></pre></li><li>Create the view:<pre><code class=shell>$ \
+mkdir -p app/views/users/
+echo '
+&lt;h1>Edit User&lt;/h1>
+&lt;%= render "form", user: @user %>
+' > app/views/users/edit.html.erb
+</code></pre></li><li>Reload the browser <br/>You should see the text followed by a form:<pre><code class=html>Edit User
+</code></pre></li></ol><h3 id=update>Update</h3><ol><li>Click <code>Update User</code>: <br/>You should get an error:<pre><code class=html>Unknown action
+
+The action 'update' could not be found for UsersController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  ...
+  def update
+    @user = User.find(params[:id])
+
+    if @user.update(user_params)
+      redirect_to @user, notice: "Update successful!"
+    else
+      render :edit
+    end
+  end
+  ...
+end
+</code></pre></li><li>Reload the browser and confirm form re-submission <br/>You should see the text:<pre><code class=html>Update successful!
+
+Welcome &lt;username>!
+</code></pre> <strong>Note:</strong> By default, <code>:password</code> and <code>:password_confirmation</code> fields aren't validated when empty.</li></ol><h3 id=destroy>Destroy</h3><ol><li>Update the view:<pre><code class=html>&lt;%# File: app/views/users/show.html.erb %>
+&lt;%= link_to "Delete", @user,
+                      method: :delete,
+                      data: { confirm: "Are you sure you want to delete this user account?" } %>
+</code></pre></li><li>Click the <code>Delete</code> link and confirm submission <br/>You should get an error:<pre><code class=html>Unknown action
+
+The action 'destroy' could not be found for UsersController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  ...
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    redirect_to users_path, notice: "User successfully deleted!"
+  end
+  ...
+end
+</code></pre></li></ol><h3 id=index>Index</h3><ol><li>Reload the browser and confirm form re-submission <br/>You should get another error:<pre><code class=html>Unknown action
+
+The action 'index' could not be found for UsersController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  def index
+    @users = User
+  end
+  ...
+end
+</code></pre></li><li>Reload the browser <br/>You should get another error:<pre><code class=html>No template for interactive request
+
+UsersController#index is missing a template for request formats: text/html
+</code></pre></li><li>Create the view:<pre><code class=shell>$ \
+mkdir -p app/views/users/
+echo '
+&lt;h1>Registered Users&lt;/h1>
+&lt;ul>
+  &lt;% @users.each do |user| %>
+  &lt;li>
+    &lt;%= link_to user.username, user %>
+  &lt;/li>
+  &lt;% end %>
+&lt;/ul>
+' > app/views/users/index.html.erb
+</code></pre></li><li>Reload the browser <br/>You should see the text:<pre><code class=html>User successfully deleted!
+
+Registered Users
+</code></pre></li></ol><h3 id=refactor>Refactor</h3><p>Update controller:</p><pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  before_action :set_user, except: [:index, :create, :new]
+
+  def index
+    @users = User.all
+  end
+
+  def create
+    @user = User.new(user_params)
+
+    if @user.save
+      redirect_to @user, notice: "Registration successful!"
+    else
+      render :new
+    end
+  end
+
+  def new
+    @user = User.new
+  end
+
+  # def edit
+  # end
+
+  # def show
+  # end
+
+  def update
+    if @user.update(user_params)
+      redirect_to @user, notice: "Update successful!"
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @user.destroy
+    redirect_to users_path, notice: "User successfully deleted!"
+  end
+
+  private
+
+  def user_params
+    params.required(:user).permit(
+      :username,
+      :password,
+      :password_confirmation
+    )
+  end
+
+  def set_user
+    @user = User.find(params[:id])
+  end
+end
+</code></pre><h2>Sign In</h2><p><strong>Notes:</strong></p><ul><li><a href=https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol rel=nofollow>HTTP</a> is a <a href=https://en.wikipedia.org/wiki/Stateless_protocol rel=nofollow>stateless protocol</a></li><li>In stateless protocol, receivers (e.g. server) don't keep information</li><li>To manage state (<a href=https://en.wikipedia.org/wiki/State_(computer_science) rel=nofollow>stateful</a>), receivers uses <a href=https://en.wikipedia.org/wiki/Session_(computer_science) rel=nofollow>sessions</a></li><li>In this example, session data will be stored using <a href=https://en.wikipedia.org/wiki/HTTP_cookie rel=nofollow>cookies</a></li></ul><p></p><ol><li>Generate a controller:<pre><code class=shell>$ rails g controller sessions
+</code></pre></li><li>Update routes:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  ...
+  resource :session, only: [:new, :create, :destroy]
+  get "signin" => "sessions#new"
+  ...
+end
+</code></pre> <strong>Notes:</strong><ul><li>The singular form <code>resource</code> generates route definitions without requiring an explicit <code>ID</code></li><li>Unlike other routes, the session data is not stored in the database, not making use of <code>ID</code></li><li>For consistency, the singular form <code>:session</code> is used to correspond to the singular <code>resource</code></li><li>However, the <code>Controller#Action</code> pair for the route definitions will still use plural (e.g. <code>sessions#new</code>)</li><li>The <code>only</code> option specifies which routes to be generated to prevent unnecessary existence of unused routes</li><li>We override <code>:new</code>'s route with <code>"signin"</code> to mask the (weird?) URL <code>/session/new</code></li></ul></li><li>Visit the desired URL (e.g. <a href=http://localhost:3000/signin>http://localhost:3000/signin</a>) <br/>You should get an error:<pre><code class=html>Unknown action
+
+The action 'new' could not be found for SessionsController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/sessions_controller.rb
+class SessionsController &lt; ApplicationController
+  def new
+  end
+end
+</code></pre> <strong>Note:</strong> The method is necessarily empty since there's no corresponding model to get data from.</li><li>Reload the browser <br/>You should get another error:<pre><code class=html>No template for interactive request
+
+SessionsController#new is missing a template for request formats: text/html
+</code></pre></li><li>Create the view:<pre><code>$ \
+mkdir -p app/views/sessions/
+echo '
+&lt;h1>Sign In&lt;/h1>
+&lt;%= form_with(url: session_path, local: true) do |form| %>
+    &lt;ul>
+        &lt;li>
+            &lt;%= form.label :username %>
+            &lt;br />
+            &lt;%= form.text_field :username %>
+        &lt;/li>
+        &lt;li>
+            &lt;%= form.label :password %>
+            &lt;br />
+            &lt;%= form.password_field :password %>
+        &lt;/li>
+    &lt;/ul>
+
+    &lt;%= form.submit "Sign In" %>
+&lt;% end %>
+' > app/views/sessions/new.html.erb
+</code></pre> <strong>Notes:</strong><ul><li>Use the <code>url</code> option since there's no model attached to the session</li><li>Override the default <code>submit</code> label (<code>Save</code>) with <code>Sign In</code></li></ul></li><li>Reload the browser <br/>You should see the text followed by a form:<pre><code class=html>Sign In
+</code></pre></li></ol><h2>Authentication</h2><p><strong>Notes:</strong></p><ul><li>Authentication is the process of verifying the identity of a user or service</li><li>It is distinguishing a registered from a non-registered user</li><li>It is a precursor to authorization</li></ul><p></p><ol><li>Fill the form with valid values then click <code>Sign In</code>: <br/>You should get an error:<pre><code class=html>Unknown action
+
+The action 'create' could not be found for SessionsController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/sessions_controller.rb
+class SessionsController &lt; ApplicationController
+  ...
+  def create
+    @user = User.find_by(username: params[:username])
+
+    if @user and @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      redirect_to @user, notice: "Welcome back #{@user.username}!"
+    else
+      flash.now[:alert] = "Invalid username or password"
+      render :new
+    end
+  end
+end
+</code></pre> <strong>Notes:</strong><ul><li>The <code>authenticate</code> method is provided by <code>has_secure_password</code></li><li>The <code>authenticate</code> method returns the receiver (<code>self</code>) if the password is valid</li><li>It is necessary to make sure that the instance variable is not <code>nil</code> before authenticating</li><li>The <code>and</code> is a subjective style preference over using <code>&&</code> (which has higher precedence)</li><li>The <code>session</code> method stores a cookie with a unique ID (Rails uses cookies to store sessions)</li><li>The <code>flash.now</code> flashes the text on the same request (instead of after rendering the template)</li><li>The <code>alert</code> option is just an alternative way of implying that the text is not a normal message</li></ul></li></ol><p></p><p><strong>Note about Rails' session cookies:</strong></p><ul><li>It expires when the browser is closed</li><li>It is limited only to <code>4kb</code> (hence, only storing user's ID)</li><li>It is <a href=https://en.wikipedia.org/wiki/Digital_signature rel=nofollow>cryptographically signed</a> (e.g. tamper-proof)</li><li>It is <a href=https://en.wikipedia.org/wiki/Encryption rel=nofollow>encrypted</a> which makes it unreadable to potential <a href=https://en.wikipedia.org/wiki/Security_hacker#Cracker rel=nofollow>crackers</a></li><li>It is not intended to store sensitive information (e.g. passwords)</li></ul><p><strong>To see the session cookie on Google Chrome:</strong></p><ol><li>Right click > Inspect (or press <code>ctrl+shift+i</code>)</li><li>Select <code>Application</code> tab</li><li>Scroll and find <code>Storage</code></li><li>Expand <code>Cookies</code></li><li>The select <code>http://localhost:3000</code></li></ol><h2>Current User</h2><h3 id=on_sign_in>On Sign In</h3><ol><li>Visit the root URL (e.g. <a href=http://localhost:3000>http://localhost:3000</a>)</li><li>Update the application-wide view:<pre><code class=html>&lt;%# File: app/views/layouts/_header.html.erb %>
+&lt;header>
+    ...
+    &lt;ul>
+        &lt;% if current_user %>
+            &lt;li>
+                &lt;%= link_to current_user.username, current_user %>
+            &lt;/li>
+        &lt;% else %>
+            &lt;li>
+                &lt;%= link_to "Sign In", signin_path %>
+            &lt;/li>
+            &lt;li>
+                &lt;%= link_to "Sign Up", signup_path %>
+            &lt;/li>
+        &lt;% end %>
+    &lt;/ul>
+&lt;/header>
+</code></pre> <strong>Notes:</strong><ul><li>The <code>current_user</code> is a view helper method that returns a <code>User</code> object</li><li>If the <code>current_user</code> is an object (non-<code>nil</code>), then show the username with a link</li><li>However, if the <code>current_user</code> is <code>nil</code>, show both <code>Sign In</code> and <code>Sign Up</code> links</li><li>The <code>signin_path</code> is the re-mapped route of <code>new_session_path</code></li><li>The <code>signup_path</code> is the re-mapped route of <code>new_user_path</code></li></ul></li><li>Reload the browser <br/>You should get an error:<pre><code class=html>NameError in Pages#index
+...
+undefined local variable or method `current_user' for #&lt;#&lt;Class:0x...>:0x...>
+</code></pre></li><li>Update the application-wide view helper:<pre><code class=ruby># File: app/helpers/application_helper.rb
+module ApplicationHelper
+  def current_user
+    @user_id = session[:user_id]
+
+    if @user_id
+      @current_user ||= User.find(@user_id)
+    end
+  end
+end
+</code></pre> <strong>Notes:</strong><ul><li>Assign the value of <code>session[:user_id]</code> to an instance variable (<code>nil</code> if empty)</li><li>Only when it's not <code>nil</code>, assign the model object corresponding with the <code>user_id</code></li><li>The <code>OR Equal</code> (<code>||=</code>) is a conditional assignment operator (also referred as <a href=https://en.wikipedia.org/wiki/Memoization rel=nofollow>memoization</a>)</li><li>^ It assigns the right value to the left if it's falsy (e.g. <code>false</code> or <code>nil</code>)</li><li>^ But if the left value is truthy (non-<code>false</code> or non-<code>nil</code>), the assignment is ignored</li><li>^ It is useful to avoid hitting the database multiple times just to check with session cookie</li></ul></li><li>Reload the browser then:<ol><li>Click <code>Sign In</code> link</li><li>Fill the form with valid credentials</li><li>Click <code>Sign In</code> button</li></ol></li></ol><p>You should see the texts:</p><pre><code class=html>* &lt;username>
+
+Welcome back &lt;username>!
+</code></pre><h3 id=on_sign_up>On Sign Up</h3><ol><li>Update the controller:<pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  ...
+  def create
+    @user = User.new(user_params)
+
+    if @user.save
+      session[:user_id] = @user.id
+      redirect_to @user, notice: "Registration successful!"
+    else
+      render :new
+    end
+  end
+  ...
+end
+</code></pre> <strong>Note:</strong> We set the user's ID on the session after successfully creating the user account.</li><li>Reload the browser then:<ol><li>Click <code>Sign Up</code> link</li><li>Fill the form with valid credentials</li><li>Click <code>Create User</code> button</li></ol></li></ol><p>You should see the texts:</p><pre><code class=html>* &lt;username>
+
+Welcome back &lt;username>!
+</code></pre><h2>Sign Out</h2><h3 id=sign_out_link>Sign Out link</h3><ol><li>Visit the root URL (e.g. <a href=http://localhost:3000>http://localhost:3000</a>)<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  ...
+  resources :users
+  ...
+  delete "signout" => "sessions#destroy"
+end
+</code></pre></li><li>Update the application-wide view:<pre><code class=html>&lt;%# File: app/views/layouts/_header.html.erb %>
+&lt;header>
+    ...
+        &lt;% if current_user %>
+            ...
+            &lt;li>
+                &lt;%= link_to "Sign Out", signout_path,
+                                        method: :delete %>
+            &lt;/li>
+            ...
+        &lt;% end %>
+    ...
+&lt;/header>
+</code></pre> <strong>Note:</strong> The <code>signout_path</code> is the re-mapped route of <code>session_path</code> (<code>delete</code>).</li><li>Click the <code>Sign Out</code> link <br/>You should get an error:<pre><code class=html>Routing Error
+
+No route matches [DELETE] "/signout"
+</code></pre></li></ol><ol><li>Update the controller<pre><code class=ruby># File: app/controllers/sessions_controller.rb
+class SessionsController &lt; ApplicationController
+  ...
+  def destroy
+    session[:user_id] = nil
+    redirect_to root_path, notice: "You've been successfully signed out!"
+  end
+  ...
+end
+</code></pre> <strong>Note:</strong> Assigning <code>nil</code> to the session makes it invalid (unusable).</li><li>Reload the browser <br/>You should see the text:<pre><code class=html>You've been successfully signed out!
+</code></pre></li></ol><h3 id=delete_link>Delete link</h3><ol><li>While signed in, click the <code>Delete</code> link and confirm submission <br/>You should get an error:<pre><code class=html>ActiveRecord::RecordNotFound in Users#index
+
+Couldn't find User with 'id'=1
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+...
+  def destroy
+    ...
+    session[:user_id] = nil
+    ...
+  end
+...
+end
+</code></pre> <strong>Note:</strong> Assigning <code>nil</code> to the session prevents the <code>current_user</code> to query a non-existent user ID.</li><li>Reload the browser and confirm form re-submission <br/>You should see the text followed by a form:<pre><code class=html>User successfully deleted!
+</code></pre></li></ol><h2>Authorization</h2><p><strong>Notes:</strong></p><ul><li>Authorization specifies the access rights or privileges of a user or service</li><li>It is granting a specific permission to an authenticated user</li><li>It is done after a successful authentication</li><li>Example is betwen normal vs. admin users</li></ul><h3 id=layer_1>Layer 1</h3><ol><li>Update the controller: <br/><strong>Note:</strong> The first restriction is against non-signed in users.<pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  before_action :require_signin, except: [:create, :new]
+  ...
+  def require_signin
+    unless current_user
+      redirect_to signin_path, alert: "You need to sign in first!"
+    end
+  end
+end
+</code></pre> <strong>Note:</strong> The <code>except</code> method excludes the specified actions (<code>create</code> and <code>new</code>) from the <code>before_action</code> method call.</li><li>Update the application-wide controller:<pre><code class=ruby># File: app/controllers/application_controller.rb
+class ApplicationController &lt; ActionController::Base
+  ...
+  private
+
+  def current_user
+    @user_id = session[:user_id]
+
+    if @user_id
+      @current_user ||= User.find(@user_id)
+    end
+  end
+
+  helper_method :current_user
+end
+</code></pre><ul><li>All the controller classes in the Rails app inherits from the <code>ApplicationController</code> class</li><li>All the methods defined in the <code>ApplicationController</code> class will be available on all the controller classes</li><li>The <code>private</code> method restricts the methods below it to be only accessible by the controller classes that inherit its class</li><li>The <code>current_user</code> method is moved to <code>ApplicationController</code> class since view helper methods are inaccessible in controllers</li><li>The <code>helper_method</code> makes the specified method available to views since controller methods are inaccessible on views</li><li>The <code>unless</code> condition is a subjective style preference over using <code>if !</code> or <code>if not</code> (esp. for falsy conditions with no <code>else</code>)</li></ul></li><li>Visiting user routes that is not related with <code>create</code> and <code>new</code> actions will cause a redirect to <a href=http://localhost:3000/signin rel=nofollow>/signin</a></li></ol><h3 id=layer_2>Layer 2</h3><ol><li>Update the controller:<pre><code class=ruby># app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  ...
+  before_action :require_correct_user, only: [:edit, :update, :destroy]
+  ...
+  def require_correct_user
+    @user = set_user
+    unless @user === current_user
+      redirect_to root_path
+    end
+  end
+end
+</code></pre> <strong>Notes:</strong><ul><li>The order of <code>before_action</code> is important since the lines are executed in sequence</li><li>The <code>only</code> method only performs the <code>before_action</code> on the specified actions (<code>edit</code>, <code>update</code> and <code>destroy</code>)</li><li>The <code>require_correct_user</code> method restrict users to only touch their own user accounts (redirect on attempts)</li><li>The <code>set_user</code> is an existing method that is being re-used (which maps a user object using an id)</li></ul></li><li>Update the application-wide controller:<pre><code class=ruby># File: app/controllers/application_controller.rb
+class ApplicationController &lt; ActionController::Base
+  ...
+  def current_user?(user)
+    current_user == user
+  end
+
+  helper_method :current_user?
+end
+</code></pre> <strong>Note:</strong> <code>current_user?</code> method makes sure that the current signed in user owns the restricted URLs.</li><li>Update the application-wide view:<pre><code class=html>&lt;%# File: app/views/users/show.html.erb %>
+&lt;% if current_user?(@user) %>
+    &lt;%= link_to "Delete", @user,
+                          method: :delete,
+                          data: { confirm: "Are you sure you want to delete this user account?" } %>
+&lt;% end %>
+</code></pre></li><li>Visiting user routes related to <code>edit</code>, <code>update</code>, and <code>destroy</code> actions that is not owned by the user will cause a redirect to <a href=http://localhost:3000/users rel=nofollow>homepage</a></li></ol><h3 id=http_referer>HTTP referer</h3><p><strong>Notes:</strong></p><ul><li>The <a href=https://en.wikipedia.org/wiki/HTTP_referer rel=nofollow>HTTP referer</a> enables the system to know where the request originated</li><li>It enables systems to determine where to redirect back the users before they were intercepted by the sign in page</li></ul><p></p><ol><li>Update the controller (user):<pre><code class=ruby># File: app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  ...
+  def require_signin
+    unless current_user
+      session[:referrer] = request.path
+      redirect_to signin_path, alert: "You need to sign in first!"
+    end
+  end
+  ...
+end
+</code></pre> <strong>Note:</strong> The <code>request.path</code> method return the current relative path of the page.</li><li>Update the controller (session):<pre><code class=ruby># File: app/controllers/sessions_controller.rb
+class SessionsController &lt; ApplicationController
+  ...
+  def create
+    @user = User.find_by(username: params[:username])
+
+    if @user and @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      redirect_to (session[:referrer] || @user), notice: "Welcome back #{@user.username}!"
+    else
+      flash.now[:alert] = "Invalid username or password"
+      render :new
+    end
+  end
+  ...
+end
+</code></pre> <strong>Note:</strong> The <code>redirect_to</code> will redirect to the referrer if it's not empty, otherwise, to the user's path.</li><li>Visiting a restricted route will redirect back to that URL after sign in</li></ol><h2>Admin Users</h2><p><strong>Notes:</strong></p><ul><li>An admin, a.k.a. <a href=https://en.wikipedia.org/wiki/Superuser rel=nofollow>superuser</a> is a special user account</li><li>A superuser is capable of doing all possible actions in the system (bypassing all restrictions)</li><li>In this example, only the admin can delete a user account</li></ul><p></p><ol><li>Create a new migration:<pre><code class=shell>$ rails g migration AddAdminToUsers admin:boolean
+</code></pre></li><li>Apply the new migration:<pre><code class=shell>$ rails db:migrate
+</code></pre></li><li>Create an admin user:<pre><code class=shell>$ rails c
+ > # Create an admin user:
+ > u = User.create(username: "foo", password: "bar", admin: true)
+   (0.4ms)  SELECT sqlite_version(*)
+   (0.1ms)  begin transaction
+  User Exists? (0.2ms)  SELECT 1 AS one FROM "users" ...
+  User Create (0.2ms)  INSERT INTO "users" ...
+   (12.1ms)  commit transaction
+=> #&lt;User id: 1, ...
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/users_controller.rb
+  ...
+  before_action :require_correct_user, only: [:edit, :update]
+  before_action :require_admin, only: [:destroy]
+  ...
+  def destroy
+    @user.destroy
+    redirect_to users_path, notice: "User successfully deleted!"
+  end
+  ...
+</code></pre></li><li>Update the application-wide controller:<pre><code class=ruby># File: app/controllers/application_controller.rb
+class ApplicationController &lt; ActionController::Base
+  ...
+  def current_user_admin?
+    current_user and current_user.admin?
+  end
+
+  helper_method :current_user_admin?
+end
+</code></pre> <strong>Note:</strong> The <code>current_user_admin?</code> checks if the current user is the assigned user and is also an admin.</li><li>Update the application-wide view:<pre><code class=html>&lt;header>
+    &lt;% if current_user_admin? %>
+        &lt;div>
+            &lt;strong>Super User&lt;/strong>
+        &lt;/div>
+    &lt;% end %>
+...
+&lt;/header>
+</code></pre> <strong>Note:</strong> Only the admin should see the <strong>Super User</strong> text.</li><li><a href=http://localhost:3000/signin rel=nofollow>Sign in</a> using the admin account <br/>You should be able to:<ul><li>See the <strong>Super User</strong> text</li><li>Delete any accounts</li></ul></li><li>Alternatively, <a href=http://localhost:3000/signin rel=nofollow>sign in</a> using a non admin account <br/>You shouldn't be able to:<ul><li>See the <strong>Super User</strong> text</li><li>Delete any accounts</li><li>Clicking <code>Delete</code> link and confirming submission will cause a redirect to <a href=localhost:3000 rel=nofollow>homepage</a> and display: <br/><code>You are not allowed to perform the action!</code> <br/><strong>Note:</strong> The <code>Delete</code> link was intentionally displayed to demonstrate the example since it's not possible to trigger it manually.</li></ul></li></ol><p>Let's continue to the last part: <a href=ruby-on-rails-6-week-5 rel=nofollow>Ruby on Rails 6: Week 5</a>.</p> </div> </div> <div class=pagination> <a href=/blog/ruby-on-rails-from-zero-to-deploy class="btn btn-outline-secondary previous"> <i class="fas fa-angle-left"> </i> Ruby on Rails: From zero to deploy </a> <div class=separator> <i class="fas fa-yin-yang"> </i> </div> <a href=/blog/ruby-on-rails-6-week-3 class="btn btn-outline-secondary next">Ruby on Rails 6: Week 3 <i class="fas fa-angle-right"> </i> </a> </div> <hr/> <div class=post-comments> <h2>Comments</h2> <div id=disqus_thread> </div> <script>var disqus_config=function(){this.page.url="https://ejelome.com/blog/ruby-on-rails-6-week-4",this.page.identifier="Ruby on Rails 6: Week 4"};!function(){var e=document,t=e.createElement("script");t.src="//ejelome.disqus.com/embed.js",t.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(t)}()</script> <noscript>Please enable JavaScript to view the <a href=//disqus.com/?ref_noscript rel=nofollow>comments powered by Disqus.</a> </noscript> </div> </div> </div> </div> <div class=footer> <p>Copyright © 2019 <a href=/ >ejelome</a>. Some rights reserved. </p> </div> <script src=/js/scripts.js></script> </body> </html> 

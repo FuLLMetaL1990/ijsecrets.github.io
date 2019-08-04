@@ -1,0 +1,429 @@
+<!doctype html> <html lang=en> <head> <meta charset=utf-8 /> <title>Ruby on Rails 6: Week 3 — ejelome</title> <meta content="Ruby on Rails 6: Week 3" name=title /> <meta content="Week 3 summary of the learned lessons from The Pragmatic Studio's Ruby on Rails 6 course." name=description /> <meta content=ejelome name=author /> <meta content="width=device-width,initial-scale=1" name=viewport /> <link href=/img/favicon.ico rel="shortcut icon" type=image/x-icon /> <link href=https://ejelome.com/blog/ruby-on-rails-6-week-3 rel=canonical /> <script>var script=document.createElement("script");function gtag(){dataLayer.push(arguments)}script.src="//googletagmanager.com/gtag/js?id=UA-144170438-1",document.head.appendChild(script),window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-144170438-1")</script> <script src=https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js async data-ad-client=ca-pub-3560971753878587></script> <link href=/css/styles.css rel=stylesheet /> </head> <body class=posts> <div class=wrapper> <div class=header> <a href=/ class=navbar-brand> <img alt=ejelome class=site-logo height=64 src=/img/logo.png width=64 /> </a> <div class=site-info> <a href=/ class=site-title>ejelome</a> <p class=site-tagline>Research, Design and Development</p> </div> <ul class=social-media> <li class=github> <a href=https://github.com/ejelome class=btn data-placement=top data-toggle=tooltip title="GitHub Profile" rel=nofollow> <i class="fa-2x fab fa-github"> </i> </a> </li> <li class=youtube> <a href=https://www.youtube.com/channel/UCgqy7fcflZb5hhfLAUmlc5g class=btn data-placement=top data-toggle=tooltip title="Youtube Channel" rel=nofollow> <i class="fa-2x fab fa-youtube"> </i> </a> </li> <li class=linkedin> <a href=https://linkedin.com/in/ejelome class=btn data-placement=top data-toggle=tooltip title="LinkedIn Profile" rel=nofollow> <i class="fa-2x fab fa-linkedin"> </i> </a> </li> </ul> </div> <div class=siri-container> </div> <div class="nav site-nav"> <ul class=list-inline> <li class=list-inline-item> <a href=/ >Home</a> </li> <li class=list-inline-item> <a href=/about>About</a> </li> <li class=list-inline-item> <a href=/archives>Archives</a> </li> </ul> </div> <div class="breadcrumb breadcrumbs"> <a href=/ >Home</a> <span class=separator> <i class="separator fa-caret-right fas"> </i> </span> <a href=/blog>Blog</a> <span class=separator> <i class="separator fa-caret-right fas"> </i> </span> <strong class=active>Ruby on Rails 6: Week 3</strong> </div> <div class=main> <div class=sidebar> <div class="sticky-top toc"> <strong>Table of Contents</strong> </div> </div> <div class=content> <h1>Ruby on Rails 6: Week 3</h1> <div class=post-content> <div class=post-meta> <span class=author> <i class="fas fa-user"> </i> <a href=/about#about data-toggle=tooltip data-placement=top>ejelome</a> </span> <span class=separator>/</span> <span class=published> <i class="fa-clock far"> </i> <time data-placement=top data-toggle=tooltip datetime=2019-10-13T00:00Z title="Published Date">October 13, 2019</time>  <span class=separator>/</span> <span class=tags> <i class="fas fa-tags"> </i> <a href=/tags/research class=tag data-placement=top data-toggle=tooltip title="Posts tagged with research">research</a> <span class=separator>▪</span> <a href=/tags/ruby class=tag data-placement=top data-toggle=tooltip title="Posts tagged with ruby">ruby</a> <span class=separator>▪</span> <a href=/tags/ruby-on-rails class=tag data-placement=top data-toggle=tooltip title="Posts tagged with ruby-on-rails">ruby-on-rails</a> <span class=separator>▪</span> <a href=/tags/web-application-framework class=tag data-placement=top data-toggle=tooltip title="Posts tagged with web-application-framework">web-application-framework</a> </span> </div> <div class="jumbotron post-summary"> <h2>Summary</h2> <p> This document is the continuation of Ruby on Rails 6: Week 2 and will be about 1) custom queries, 2) migrations revisited, 3) model validations, 4) handling validation errors, 5) the flash and 6) one-to-many relationships. </p> </div> <hr/> <div class=content-block> <p><strong>Note:</strong> This is the continuation of <a href=ruby-on-rails-6-week-2 rel=nofollow>Ruby on Rails 6: Week 2</a>.</p><p>This document will be the week 3 summary of the learned lessons from <a href=https://pragmaticstudio.com rel=nofollow>The Pragmatic Studio</a>'s <a href=https://pragmaticstudio.com/courses/rails rel=nofollow>Ruby on Rails 6</a> course.</p><p>The number of lessons look lesser but in fact, the last lesson consists of multiple videos explaining <a href=https://edgeguides.rubyonrails.org/association_basics.html rel=nofollow>Active Record Associations</a> in Rails.</p><h2>Custom Queries</h2><h3 id=rails_console>Rails console</h3><p>Open the Rails console (<code>rails c</code> ) then do the following:</p><ul><li>Use the <code>where</code> method of a model (e.g. <code>Page</code>) to do custom queries:<pre><code class=ruby> > Page.where("title = ?", "Hello World!")
+   Page Load (0.6ms)
+   SELECT "pages".* FROM "pages"
+   WHERE (title = 'Hello World!')
+   LIMIT ?  [["LIMIT", 11]]
+=> #&lt;ActiveRecord::Relation [#&lt;Page id: 1, ...
+</code></pre> <strong>Notes:</strong><ul><li>The question mark (<code>?</code>) acts as the placeholder for the value</li><li>The <code>where</code> method maps the <code>WHERE</code> clause of an SQL query</li></ul></li><li>Use the <code>order</code> method to order the mapped objects of the model:<pre><code class=ruby> > Page.order("id desc")
+   Page Load (0.6ms)
+   SELECT "pages".* FROM "pages"
+   ORDER BY id desc
+   LIMIT ?  [["LIMIT", 11]]
+=> #&lt;ActiveRecord::Relation [#&lt;Page id: 2, ...
+</code></pre> <strong>Notes:</strong><ul><li>The <code>order</code> method maps the <code>ORDER BY</code> clause of an SQL query</li><li>Similar in SQL, an optional sorting (<code>asc</code> or <code>desc</code>) can be included</li></ul></li><li>Custom queries can be chained together:<pre><code class=ruby> > Page.where("title LIKE ?", "%world%").order("id desc")
+   Page Load (0.6ms)
+   SELECT "pages".* FROM "pages"
+   WHERE (title LIKE '%world%')
+   ORDER BY id desc
+   LIMIT ?  [["LIMIT", 11]]
+ => #&lt;ActiveRecord::Relation [#&lt;Page id: 2, ...
+</code></pre> <strong>Notes:</strong><ul><li>Use the placeholder to convert Ruby date type to SQL date type</li><li>Use the placeholder on number literals with underscores (e.g. <code>9_000</code>)</li><li>The <code>where</code> method also accepts comma-separated hashes (e.g. <code>id: 1</code>)</li><li>The <code>order</code> method also accepts a hash and keyword pair (e.g. <code>id: :asc</code>)</li></ul></li><li>Use the <code>to_sql</code> to preview the generated SQL without running the query:<pre><code class=ruby> > Page.where("title LIKE ?", "%world%").order("id desc").to_sql
+=> "SELECT \"pages\".* FROM \"pages\" WHERE (title LIKE '%world%') ORDER BY id desc"
+</code></pre></li></ul><h3 id=model_and_controller>Model and Controller</h3><ol><li>Update the model:<pre><code class=ruby># File: app/models/page.rb
+class Page &lt; ApplicationRecord
+  ...
+  def self.with_world
+    where("title LIKE ?", "%world%").order("id desc")
+  end
+end
+</code></pre> <strong>Notes:</strong><ul><li>The <code>self</code> identifies the method as a class method</li><li>A class method, unlike instance method can only be called directly</li><li>Unlike class method, the instance method can only be called in an instance</li><li>The model should be the only one in MVC to decide how to manage the data</li></ul></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  def index
+    @pages = Page.with_world
+  end
+  ...
+end
+</code></pre> <strong>Note:</strong> The controller only defers the data received from the model to the view.</li></ol><h2>Migrations Revisited</h2><ol><li>Create a new migration:<pre><code class=shell>$ rails g migration AddImagePathToPage image_path:string
+Running via Spring preloader in process 9443
+      invoke  active_record
+      create    db/migrate/20191015181055_add_image_path_to_page.rb
+</code></pre> <strong>Notes:</strong><ul><li>It will generate the file <code>db/migrate/&lt;timestamp>_add_&lt;field>_to_&lt;model>.rb</code></li><li>To <strong>add</strong>, Use the format <code>Add&lt;Field>To&lt;Model></code>, separating fields by <code>Add</code></li><li>To <strong>remove</strong>, Use the format <code>Remove&lt;Field>From&lt;Model></code>, also separated by <code>Add</code></li></ul></li><li>Set default values by editing the migration file<pre><code class=ruby># File: db/migrate/20191015181055_add_image_path_to_page.rb
+class AddImagePathToPage &lt; ActiveRecord::Migration[6.0]
+  def change
+    add_column :pages, :image_path, :string, default: "placeholder.png"
+  end
+end
+</code></pre> <strong>Note</strong> Default values cannot be specified in CLI (a reason to edit the file).</li><li>Apply the migration:<pre><code class=shell>$ rails db:migrate
+== 20191015181055 AddImagePathToPage: migrating ===============================
+-- add_column(:pages, :image_path, :string, {:default=>"placeholder.png"})
+   -> 0.0017s
+== 20191015181055 AddImagePathToPage: migrated (0.0017s) ======================
+</code></pre> <strong>Note:</strong> It will update the <code>db/schema.rb</code> file.</li><li>Or undo the last migration:<pre><code class=shell>$ rails db:rollback
+== 20191015181055 AddImagePathToPage: reverting ===============================
+-- remove_column(:pages, :image_path, :string, {:default=>"placeholder.png"})
+   -> 0.0220s
+== 20191015181055 AddImagePathToPage: reverted (0.0505s) ======================
+</code></pre> <strong>Notes:</strong><ul><li>All the data of the removed column will be lost</li><li>It's normal to do a rollback to edit the migration file then re-apply migration</li></ul></li></ol><h2>Model Validations</h2><h3 id=model>Model</h3><p><strong>Note:</strong> Validation is an example of a business rule.</p><ul><li>Use the <code>validates</code> method to validate an attribute:<pre><code class=ruby># File: app/models/page.rb
+class Page &lt; ApplicationRecord
+  validates :title, presence: true
+...
+end
+</code></pre> <strong>Notes:</strong><ul><li><code>:title</code> is the model attribute to validate</li><li><code>presence: true</code> is a hash which is a validator</li><li>Multiple model attributes and validators can be put together, separated by comma (<code>,</code>)</li><li>Model attributes must be on the left while validators must be on the right</li><li>Some validators can have multiple options provided within a hash</li><li>When using <a href=https://en.wikipedia.org/wiki/Regular_expression rel=nofollow>regex</a>, use <code>\A</code> instead of <code>^</code> and <code>\z</code> instead of <code>$</code></li></ul></li></ul><h3 id=console>Console</h3><p>Open the Rails console (<code>rails c</code> ) then do the following:</p><ul><li>Create an instance then save to notice a problem:<pre><code class=ruby> > p = Page.new
+=> #&lt;Page id: nil, ...
+
+ > p.save
+=> false
+</code></pre> <strong>Note:</strong> A return of <code>false</code> implies that the instance is not committed to the database.</li><li>Use the <code>errors</code> method to inspect for possible errors:<pre><code class=ruby> > p.errors
+ => #&lt;ActiveModel ...
+ @messages={:title=>["can't be blank"]},
+ @details={:title=>[{:error=>:blank}]}>
+</code></pre></li><li>Specify the model attribute key to limit the error with a model attribute:<pre><code class=ruby> > p.errors[:title]
+=> ["can't be blank"]
+</code></pre></li><li>Use the <code>errors.full_messages</code> methods to only get error messages:<pre><code class=ruby> > p.errors.full_messages
+=> ["Title can't be blank"]
+</code></pre></li><li>Use the <code>errors.full_messages.to_sentence</code> methods to merge them to one sentence:<pre><code class=ruby> > p.errors.full_messages.to_sentence
+=> "Title can't be blank"
+</code></pre></li><li>Use <code>errors.any?</code> methods to check if an instance has any errors:<pre><code class=ruby> > p.errors.any?
+=> true
+</code></pre></li></ul><h2>Handling Validation Errors</h2><ul><li>Update the controller's <code>create</code> and <code>update</code> methods:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  ...
+    def update
+    @page = Page.find(params[:id])
+
+    if @page.update(page_params)
+      redirect_to @page
+    else
+      render :edit
+    end
+  end
+  ...
+  def create
+    @page = Page.new(page_params)
+
+    if @page.save
+      redirect_to @page
+    else
+      render :new
+    end
+  end
+  ...
+end
+</code></pre> <strong>Notes:</strong><ul><li>The <code>update</code> and <code>save</code> methods return a boolean that can be used in the condition</li><li>The <code>create</code> method was replaced with <code>new</code> since we need an instance to refer to</li><li>The <code>:edit</code> and <code>:new</code> keywords re-displays the forms re-populated with only valid submitted values</li></ul></li><li>Create a shared partial:<pre><code class=shell>$ \
+mkdir -p app/views/shared/
+echo '
+&lt;% if object.errors.any? %>
+    &lt;h2>Submit failed!&lt;/h2>
+    &lt;ul>
+        &lt;% object.errors.full_messages.each do |message| %>
+            &lt;li>&lt;%= message %>&lt;/li>
+        &lt;% end %>
+    &lt;/ul>
+&lt;% end %>
+' > app/views/shared/_errors.html.erb
+</code></pre> <strong>Notes:</strong><ul><li>The <code>shared/</code> directory can be any name</li><li>It is intended for re-usable partials for the whole app</li></ul></li><li>Update the view's <code>_form</code> partial:<pre><code class=html>{%# File: app/views/pages/_form.html.erb %}
+&lt;%= form_with(model: page, local: true) do |form| %>
+  ...
+  &lt;%= render "shared/errors", object: page %>
+  &lt;hr />
+  ...
+&lt;% end %>
+</code></pre> <strong>Notes:</strong><ul><li>Partials can use other partials (nested partials)</li><li>Invalid submitted form fields are wrapped with <code>div#field_with_errors</code></li></ul></li><li>Update the global style sheet:<pre><code class=scss>// File: app/assets/stylesheets/global.scss
+...
+$color-warning: #FBF1A9;
+$color-danger: #E7040F;
+...
+.field_with_errors {
+    label {
+        color: $color-danger;
+    }
+    input,
+    textarea {
+        background: $color-warning;
+    }
+}
+</code></pre></li></ul><h2>The Flash</h2><p><strong>Note:</strong> While validation errors are for failed submissions, flashes are for successful ones.</p><ul><li>Update the controller methods performing redirects:<pre><code class=ruby># File: app/controllers/pages_controller.rb
+class PagesController &lt; ApplicationController
+  ...
+  def update
+    @page = Page.find(params[:id])
+
+    if @page.update(page_params)
+      redirect_to @page, notice: "Page successfully updated!"
+    else
+      render :edit
+    end
+  end
+  ...
+  def create
+    @page = Page.new(page_params)
+
+    if @page.save
+      redirect_to @page, notice: "Page successfully created!"
+    else
+      render :new
+    end
+  end
+
+  def destroy
+    @page = Page.find(params[:id])
+    @page.destroy
+    redirect_to pages_path, notice: "Page successfully deleted!"
+  end
+  ...
+end
+</code></pre> <strong>Notes:</strong><ul><li>Flashes are temporary messages between actions (e.g. <code>create</code>, <code>update</code>, and <code>destroy</code>)</li><li>Flashes are gone when another action is performed (e.g. a page refresh)</li><li>The <code>notice: "&lt;msg>"</code> or <code>alert: "&lt;msg>"</code> are conveniences when using redirects</li><li>For non-redirects, use the plain <code>flash[:notice]</code> or <code>flash[:alert]</code></li></ul></li><li>Create an application-wide partial:<pre><code class=html>&lt;!-- File: app/views/layouts/_flash.html.erb -->
+&lt;% if flash[:notice] %>
+    &lt;%= flash[:notice] %>
+&lt;% end %>
+
+&lt;% if flash[:alert] %>
+    &lt;%= flash[:alert] %>
+&lt;% end %>
+</code></pre> <strong>Note:</strong> While not necessary, the reasoning to make flash a partial is to avoid bloating the base html file.</li><li>Use the partial in the application-wide view:<pre><code class=html>&lt;!-- File: app/views/layouts/application.html.erb -->
+...
+&lt;main>
+    &lt;%= render "layouts/flash" %>
+    &lt;%= yield %>
+&lt;/main>
+...
+</code></pre> <strong>Note:</strong> The reason to put it in the application-wide view is to render it on all of app's action views.</li><li>Use the <code>add_flash_types</code> method to add a custom flash type:<pre><code class=ruby># File: app/controllers/application_controller.rb
+class ApplicationController &lt; ActionController::Base
+  add_flash_types(:custom)
+end
+</code></pre></li></ul><h2>One-to-many</h2><h3 id=belongs_to>belongs_to</h3><p>The <code>belongs_to</code> is the <code>one</code> in the <code>one-to-many</code> relationship and is the <strong>child</strong>.</p><ol><li>Create a new resource:<pre><code class=shell>$ rails g resource tag name:string page:references
+</code></pre> <strong>Notes:</strong><ul><li>The resource name must be singular</li><li>This generates complete routes and a migration file</li><li>The <code>resource</code> command is intended for RESTful applications where there's no view</li><li>The <code>&lt;model>:references</code> adds <code>belongs_to :&lt;model></code> to the generated model</li><li>The <code>belongs_to</code> method tells Rails its relationship to another model (parent)</li><li>The <code>belongs_to</code> model keyword must be in singular (e.g. <code>:page</code>)</li><li>The <code>belongs_to</code> also creates a foreign key column (<code>&lt;model>_id</code>) to link with another model</li><li>To remove the generated resource files, simply replace <code>g</code> with <code>d</code> (shortcut for <code>destroy</code>)</li></ul></li><li>Apply migration:<pre><code class=shell>$ rails db:migrate
+</code></pre></li><li>Open Rails console:<pre><code class=shell>$ rails c
+</code></pre></li><li>Associate a model object with the foreign key:<pre><code class=ruby> > p = Page.find(1)
+   (0.4ms)  SELECT sqlite_version(*)
+   Page Load (0.2ms)  SELECT "pages".* ...
+=> #&lt;Page id: 1, ...
+ > t = Tag.create(name: "hashtag", page_id: p.id)
+   (0.1ms)  begin transaction
+   Page Load (0.1ms)  SELECT "pages".* ...
+   Tag Create (0.4ms)  INSERT INTO "tags" ...
+   (9.7ms)  commit transaction
+=> #&lt;Tag id: 1, ...
+2.6.3 :003 >
+</code></pre> <strong>Notes:</strong><ul><li>The foreign key is the <code>&lt;model>_id</code></li><li>Model relationships are called <strong>associations</strong></li></ul></li><li>Associate a model object with an object itself:<pre><code class=ruby> > p = Page.find(1)
+   (0.5ms)  SELECT sqlite_version(*)
+   Page Load (0.2ms)  SELECT "pages".* ...
+=> #&lt;Page id: 1, ...
+ > t = Tag.create(name: "hashtag", page: p)
+   (0.1ms)  begin transaction
+   Tag Create (0.3ms)  INSERT INTO "tags" ...
+   (9.7ms)  commit transaction
+=> #&lt;Tag id: 1, ...
+</code></pre></li><li>Access the associated model object:<pre><code class=ruby> > # Access the foreign key:
+ > t.page_id
+ => 1
+
+ > # Access the object:
+ > t.page
+ => #&lt;Page id: 1, ...
+</code></pre></li></ol><h3 id=has_many>has_many</h3><p>The <code>has_many</code> is the <code>many</code> in the <code>one-to-many</code> relationship and is the <strong>parent</strong>.</p><ol><li>Update the model:<pre><code class=ruby># File: app/models/page.rb
+class Page &lt; ApplicationRecord
+  has_many :tags
+  ...
+end
+</code></pre> <strong>Notes:</strong><ul><li>The <code>has_many</code> model keyword must be in plural (e.g. <code>:tags</code>)</li><li>The <code>has_many</code> creates the specified name as an instance method</li></ul></li><li>Open Rails console:<pre><code class=shell>$ rails c
+</code></pre></li><li>List associated model objects:<pre><code class=ruby> > p = Page.find(1)
+  (0.4ms)  SELECT sqlite_version(*)
+  Page Load (0.2ms)  SELECT "pages".* ...
+=> #&lt;Page id: 1, ...
+ > t = Tag.create(name: "hashtag", page: p)
+   (0.2ms)  begin transaction
+   Tag Create (0.8ms)  INSERT INTO "tags" ...
+   (11.4ms)  commit transaction
+=> #&lt;Tag id: 1, ...
+ > p.tags
+   Tag Load (0.6ms)  SELECT "tags".* ...
+=> #&lt;ActiveRecord::Associations::CollectionProxy [#&lt;Tag id: 1, ...
+</code></pre></li><li>Create an associated model object thru the parent object:<pre><code class=ruby> > p = Page.find(1)
+   (0.4ms)  SELECT sqlite_version(*)
+   Page Load (0.2ms)  SELECT "pages".* ...
+=> #&lt;Page id: 1, ...
+ > p.tags.create(name: "hashtag")
+   (0.1ms)  begin transaction
+   Tag Create (0.3ms)  INSERT INTO "tags" ...
+   (36.0ms)  commit transaction
+=> #&lt;Tag id: 1, ...
+</code></pre> <strong>Note:</strong> The foreign key is automatically set.</li></ol><h3 id=dependent>dependent</h3><p>The <code>dependent</code> option cascades the method (e.g. <code>destroy</code>) to associated model objects.</p><ol><li>Update the model:<pre><code class=ruby># File: app/models/page.rb
+class Page &lt; ApplicationRecord
+  has_many :tags, dependent: :destroy
+  ...
+end
+</code></pre> <strong>Notes:</strong><ul><li>The <code>dependent</code> option prevents associated model objects to be orphaned (no parent)</li><li>Only use <code>dependent</code> on <code>hash_many</code> associations since their existence depends on parent model objects</li></ul></li><li>Open Rails console:<pre><code class=shell>$ rails c
+</code></pre></li><li>Destroying associated children don't remove the parent:<pre><code class=ruby> > p = Page.find(1)
+   (0.3ms)  SELECT sqlite_version(*)
+   Page Load (0.2ms)  SELECT "pages".* ...
+=> #&lt;Page id: 1, ...
+ > t = Tag.create(name: "hashtag", page: p)
+   (0.1ms)  begin transaction
+   Tag Create (0.2ms)  INSERT INTO "tags" ...
+   (1898.3ms)  commit transaction
+=> #&lt;Tag id: 1, ...
+ > t.destroy
+   (0.2ms)  begin transaction
+   Tag Destroy (0.8ms)  DELETE FROM "tags" ...
+   (36.2ms)  commit transaction
+=> #&lt;Tag id: 1, ...
+ > p = Page.find(1)
+   Page Load (0.4ms)  SELECT "pages".* ...
+=> #&lt;Page id: 1, ...
+ > p.tags
+  Tag Load (0.5ms)  SELECT "tags".* ...
+=> #&lt;ActiveRecord::Associations::CollectionProxy []>
+</code></pre></li><li>But destroying the parent also removes the associated children:<pre><code class=ruby> > p = Page.find(1)
+   (0.4ms)  SELECT sqlite_version(*)
+   Page Load (0.2ms)  SELECT "pages".* ...
+=> #&lt;Page id: 1, ...
+ > t = Tag.create(name: "hashtag", page: p)
+   (0.1ms)  begin transaction
+   Tag Create (0.4ms)  INSERT INTO ...
+   (35.3ms)  commit transaction
+=> #&lt;Tag id: 1, ...
+ > p.destroy
+   (0.1ms)  begin transaction
+   Tag Load (0.3ms)  SELECT "tags".* ...
+   Tag Destroy (0.5ms)  DELETE FROM ...
+   Page Destroy (0.2ms)  DELETE FROM ...
+   (35.5ms)  commit transaction
+=> #&lt;Page id: 1, ...
+ > p = Page.find(1)
+   Page Load (0.5ms)  SELECT "pages".* ...
+ Traceback (most recent call last):
+         1: from (irb):6
+ ActiveRecord::RecordNotFound (Couldn't find Page with 'id'=1)
+ > t = Tag.find(1)
+   Tag Load (0.7ms)  SELECT "tags".* ...
+ Traceback (most recent call last):
+         2: from (irb):7
+         1: from (irb):7:in `rescue in irb_binding'
+ ActiveRecord::RecordNotFound (Couldn't find Tag with 'id'=1)
+</code></pre></li></ol><h3 id=nested_resources>Nested resources</h3><p><strong>Note:</strong> Nested resources allows associated models to have a heirarchy in URLs.</p><ol><li>Visit the desired URL (e.g. <a href=http://localhost:3000/pages/1/tags>http://localhost:3000/pages/1/tags</a>) <br/>You should get an error:<pre><code class=html>Routing Error
+
+No route matches [GET] "/pages/1/tags"
+</code></pre></li><li>Update the route:<pre><code class=ruby># File: config/routes.rb
+Rails.application.routes.draw do
+  root "pages#index"
+
+  resources :pages do
+    resources :tags
+  end
+end
+</code></pre> <strong>Note:</strong> This makes the <code>:tags</code> routes to be nested inside the <code>:pages</code> routes.</li><li>Visit the defined routes (<a href=http://localhost:3000/rails/info/routes rel=nofollow>/rails/info/routes</a>) <br/>Enter <code>tags</code> on the <code>Path</code> field to highlight the nested URLs:<pre><code class=html>| Helper             | HTTP Verb | Path                                    | Controller#Action |
+| Path / Url         |           | [ tags                                ] |                   |
+|--------------------|-----------|-----------------------------------------|-------------------|
+| page_tags_path     | GET       | /pages/:page_id/tags(.:format)          | tags#index        |
+|                    | POST      | /pages/:page_id/tags(.:format)          | tags#create       |
+| new_page_tag_path  | GET       | /pages/:page_id/tags/new(.:format)      | tags#new          |
+| edit_page_tag_path | GET       | /pages/:page_id/tags/:id/edit(.:format) | tags#edit         |
+| page_tag_path      | GET       | /pages/:page_id/tags/:id(.:format)      | tags#show         |
+|                    | PATCH     | /pages/:page_id/tags/:id(.:format)      | tags#update       |
+|                    | PUT       | /pages/:page_id/tags/:id(.:format)      | tags#update       |
+|                    | DELETE    | /pages/:page_id/tags/:id(.:format)      | tags#destroy      |
+</code></pre> <strong>Note:</strong> Nested resources avoids resorting to (ugly?) query strings (e.g. <code>/tags?page_id=1</code>).</li><li>Reload the browser <br/>You should get another error:<pre><code class=html>Routing Error
+
+The action 'index' could not be found for TagsController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/tags_controller.rb
+class TagsController &lt; ApplicationController
+  def index
+    @page = Page.find(params[:page_id])
+    @tags = @page.tags
+  end
+end
+</code></pre></li><li>Reload the browser <br/>You should get another error:<pre><code class=html>No template for interactive request
+
+TagsController#index is missing a template for request formats: text/html
+</code></pre></li><li>Create the view:<pre><code class=shell>$ \
+mkdir -p app/views/tags/
+echo '
+&lt;h1>Tags for &lt;%= link_to @page.title, @page %>&lt;/h1>
+&lt;ul>
+    &lt;% @tags.each do |tag| %>
+        &lt;li>&lt;%= tag.name %>&lt;/li>
+    &lt;% end %>
+&lt;/ul>
+' > app/views/tags/index.html.erb
+</code></pre></li><li>Reload the browser <br/>You should see the text:<pre><code class=html>Tags for Hello World!
+
+* hashtag
+</code></pre></li></ol><h3 id=forms>Forms</h3><h4 id=new>New</h4><ol><li>Visit the desired URL (e.g. <a href=http://localhost:3000/pages/1/tags/new>http://localhost:3000/pages/1/tags/new</a>) <br/>You should get an error:<pre><code class=html>Unknown action
+
+The action 'new' could not be found for TagsController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/tags_controller.rb
+class TagsController &lt; ApplicationController
+  ...
+  def new
+    @page = Page.find(params[:page_id])
+    @tag = @page.tags.new
+  end
+end
+</code></pre></li><li>Reload the browser <br/>You should get another error:<pre><code class=html>No template for interactive request
+
+TagsController#new is missing a template for request formats: text/html
+</code></pre></li><li>Create a shared partial:<pre><code class=html>$ \
+mkdir -p app/views/tags/
+echo '
+&lt;%= form_with(model: page, local: true) do |form| %>
+    &lt;%= render "shared/errors", object: page.last %>
+    &lt;hr />
+    &lt;%= form.label :name %>
+    &lt;%= form.text_field :name %>
+    &lt;%= form.submit %>
+&lt;% end %>
+' > app/views/tags/_form.html.erb
+</code></pre> <strong>Notes:</strong><ul><li><code>form_with</code>'s <code>model</code> (<code>page</code>) is an array (<code>[@page, @tag]</code>) consisting of parent and child models</li><li><code>form_with</code>'s generated <code>action</code> attribute points to <code>/&lt;parent>/&lt;parent_id>/&lt;child></code> (e.g. <code>/pages/1/tags</code>)</li><li><code>render</code>'s <code>object</code> (<code>page.last</code>) refers to the child model (<code>@tag</code>)</li></ul></li><li>Create the view:<pre><code class=shell>$ \
+mkdir -p app/views/tags/
+echo '
+&lt;h1>New Tag&lt;/h1>
+&lt;%= render "form", page: [@page, @tag] %>
+' > app/views/tags/new.html.erb
+</code></pre></li><li>Reload the browser <br/>You should see the text followed by a form:<pre><code class=html>New Tag
+</code></pre></li></ol><h4 id=create>Create</h4><ol><li>Click the <code>Create Tag</code> submit button and get an error:<pre><code class=html>Unknown action
+
+The action 'create' could not be found for TagsController
+</code></pre></li><li>Update the controller:<pre><code class=ruby># File: app/controllers/tags_controller.rb
+class TagsController &lt; ApplicationController
+  ...
+  def create
+    @page = Page.find(params[:page_id])
+    @tag = @page.tags.new(tag_params)
+
+    if @tag.save
+      redirect_to @page, notice: "Tag successfully created!"
+    else
+      render :new
+    end
+  end
+
+  private
+
+  def tag_params
+    params.require(:tag).permit(:name)
+  end
+end
+</code></pre> <strong>Note:</strong> <code>redirect_to</code> in this case, points back to the parent's show page (<code>@page</code>).</li><li>Reload the browser and confirm form re-submission <br/>You should be redirected to the show page with the text:<pre><code class=html>Tag successfully created!
+</code></pre></li></ol><h4 id=remove_duplicates_with_before_action>Remove duplicates with before_action</h4><p><strong>Note:</strong> The <code>before_action</code> method can remove duplicated code used across the controller.</p><ol><li>Update the controller:<pre><code class=ruby>class TagsController &lt; ApplicationController
+  before_action :set_tag
+
+  def index
+    @tags = @page.tags
+  end
+
+  def new
+    @tag = @page.tags.new
+  end
+
+  def create
+    @tag = @page.tags.new(tag_params)
+
+    if @tag.save
+      redirect_to @page, notice: "Tag successfully created!"
+    else
+      render :new
+    end
+  end
+
+  private
+
+  def tag_params
+    params.require(:tag).permit(:name)
+  end
+
+  def set_tag
+    @page = Page.find(params[:page_id])
+  end
+end
+</code></pre> <strong>Notes:</strong><ul><li>The <code>before_action</code> method calls a method before executing a controller action</li><li>The <code>before_action</code> can include (<code>:only</code>) or exclude (<code>:except</code>) controller actions to be affected</li></ul></li></ol><p>Let's continue to the last part: <a href=ruby-on-rails-6-week-4 rel=nofollow>Ruby on Rails 6: Week 4</a>.</p> </div> </div> <div class=pagination> <a href=/blog/ruby-on-rails-6-week-4 class="btn btn-outline-secondary previous"> <i class="fas fa-angle-left"> </i> Ruby on Rails 6: Week 4 </a> <div class=separator> <i class="fas fa-yin-yang"> </i> </div> <a href=/blog/ruby-on-rails-6-week-2 class="btn btn-outline-secondary next">Ruby on Rails 6: Week 2 <i class="fas fa-angle-right"> </i> </a> </div> <hr/> <div class=post-comments> <h2>Comments</h2> <div id=disqus_thread> </div> <script>var disqus_config=function(){this.page.url="https://ejelome.com/blog/ruby-on-rails-6-week-3",this.page.identifier="Ruby on Rails 6: Week 3"};!function(){var e=document,t=e.createElement("script");t.src="//ejelome.disqus.com/embed.js",t.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(t)}()</script> <noscript>Please enable JavaScript to view the <a href=//disqus.com/?ref_noscript rel=nofollow>comments powered by Disqus.</a> </noscript> </div> </div> </div> </div> <div class=footer> <p>Copyright © 2019 <a href=/ >ejelome</a>. Some rights reserved. </p> </div> <script src=/js/scripts.js></script> </body> </html> 
