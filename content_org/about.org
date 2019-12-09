@@ -1,0 +1,205 @@
+#+HUGO_BASE_DIR: ../
+
+* About
+  :PROPERTIES:
+  :EXPORT_HUGO_SECTION: /
+  :EXPORT_FILE_NAME: about
+  :END:
+
+** Emmanuel-Jelome Fonseca
+
+   [[/img/me.png]]
+
+   I'm a Software Developer at /Tradebyte/[fn:1] in Ansbach, Bavaria
+   who is in a constant /quest/[fn:2] of /self-discovery/[fn:3].
+
+-----
+
+** Self-discoveries so far
+
+*** On a [[/about#personal][personal]] level
+
+    - an [[/about#agreeable-and-open][Agreeable and Open]] person
+    - with an [[/about#infp-t][INFP-T]] personality
+    - who has an [[/about#average-iq][Average IQ]]
+    - with quite a few [[/about#interests][interests]] (see also [[/about#other-tests][other tests]] and [[/about#pseudosciences][pseudosciences]])
+
+*** On a [[/about#technical][technical]] level
+
+    - a /=Python=/[fn:4] programmer [[/about#at-work][at work]]
+    - and a /=Ruby=/[fn:5] enthusiast on [[/about#hobbies][hobbies]]
+    - aims to become a *modern* /=LISPer=/[fn:6] using /=Clojure=/[fn:7] in [[/about#the-future][the future]]
+
+*** On waking life
+
+    Mostly associated to only a few but important people in life --- direct family, close friends and good colleagues.
+    Striving to only spend time on genuine relationships and meaningful activities --- as /Nietzsche/[fn:8] wrote:
+
+    #+BEGIN_quote
+    Is life not a thousand times too short for us to bore ourselves?
+    #+END_quote
+
+-----
+
+** Personal
+
+   Self-discovery is quite a task --- requiring openness to explore the potentials and courage to accept the limitations.
+
+   Here are some of the platforms I used that /might be/ credible enough to reveal one's identity --- except that their accuracy weren't guaranteed.
+
+*** Agreeable and Open
+
+    According to /Understand Myself/[fn:9], which evaluates personalities based on /The Big Five Aspect Scales/[fn:10],
+    I lean towards /*Agreeableness*/[fn:11] (=80/100=, highest trait) and /*Openness*/[fn:12] (=90/100=, highest aspect),
+    which suggests a positive link on entrepreneurship and creative work.
+
+    Ironically, being low in /*Conscientiousness*/[fn:13] (=11/100=, lowest trait) and very low in *Intellect* (=5/100=, lowest aspect) implies negative competence in administrative and repetitive tasks as I prefer leadership and team play than managerial and egotism.
+
+    The level of /*Neuroticism*/[fn:14] (=50/100=, balanced view) validates my neutral viewpoint in life, such that, individuals can be good or evil, happy or unhappy depending on their choices, actions *and* circumstances in life.
+
+    It was also a bit surprising to learn that I'm not as /*Introverted*/[fn:15] (=57/100=) as I thought --- but still --- I get fairly exhausted in crowds unless that crowd are the people I deem important. Nevertheless, parties will never be my thing.
+
+*** INFP-T
+
+    According to /16Personalities/[fn:16], which assess people based on Myers–Briggs Type Indicator[fn:17] (MBTI), I lean towards /*INFP*/[fn:18]-/*T*/[fn:19].
+    Note, however, that Myers–Briggs' personality test is criticized in its scientific accuracy and even labelled as a /pseudoscience/[fn:20].
+
+    On the other hand, INFP-T suits introversion (=I=), agreeableness (=__F_=) and openness (=_N_P=) pretty well.
+    Turbulence (=-T=) seems to be a recent add-on to increase variants although it's a good fit for perfectionists who self-doubts (see /impostor syndrome/[fn:21]).
+
+*** Average IQ
+
+    According to /Mensa Norway/[fn:22], which tests individual's cognitive abilities, I have an IQ of about *=105=* (which is *average*, so to speak).
+    Of course, I could have achieved a higher score by means of repetition, but that will be a fool's errand, as it merely will increase my test score, not IQ.
+
+    Having said that, however, IQ, *in my humble opinion*, is overrated --- which might also be the reason that I'm average per se --- and mustn't be viewed as the end all be all of any individual.
+
+    While having higher IQ has its own merits, it shouldn't be used as an absolute measure.
+    The fact that life treats everyone equally regardless of intelligence illustrates that.
+    So rather than chasing intelligence and accumulatation knowledge --- seek wisdom and find out the truth.
+
+*** Other tests
+
+    There were also old tests that I took and somehow kept their scores:
+
+    - *Highly Sensitive Person* (=19/27=) in /SPS/[fn:23]
+    - *Mid-brained dominant* (=50/50=) in brain dominance
+    - *=1%= more feminine* than most men in /gender role/[fn:24]
+    - *Associative thinker* in terms of thought process
+    - Uses /*defensive pessimism*/[fn:25] as the /cognitive strategy/[fn:26]
+
+*** Pseudosciences
+
+    I also checked a few /mysticism/[fn:27] outside science (see /noumenon/[fn:28]):
+
+    - *Diamond* as the /birthstone/[fn:29] (both month and day)
+    - *Aries* (Ram &#9800;), *fire* element, *cardinal* quality in /western astrology/[fn:30]
+    - *Earth Dragon* (*Dragon* animal, *yang earth* element) in /chinese zodiac/[fn:31]
+
+    To be fair, they got it right in numbers (*=7=*) and colors (*silver*, *gray*).
+
+*** Interests
+
+    Outside of computers, I like:
+
+    - Art (drawing)
+    - Music (flute)
+    - Philosophy (metaphysics)
+
+-----
+
+** Technical
+
+   I find joy in constant exposure to different kinds technologies --- old and new --- that can provide unique perspectives to solve different problems.
+
+*** At Work
+
+    As a Software Developer,
+    we use /=Python=/[fn:4] as the programming language
+    with /=Django=/[fn:32] as the web framework
+    that sits on top of /=AWS=/[fn:33].
+    Strangely enough, I have proclivity with /=JavaScript=/[fn:34] esp. when it comes to UIs.
+
+*** Hobbies
+
+    At home, I intentionally use the opposing technologies on hobby projects to have different perspectives such as
+    /=Ruby=/[fn:5] as the programming language
+    with /=Ruby on Rails=/[fn:35] as the web framework.
+    The combination of /=GitHub=/[fn:36] (versioning),
+    /=GitHub flow=/[fn:37] (branching model),
+    /=Travis CI=/[fn:38] (building)
+    and /=Heroku=/[fn:39] (hosting)
+    with /=Heroku Flow=/[fn:40] (CD workflow)
+    for a complete /=CI/CD=/[fn:41] pipeline
+    --- and as an advocate of /=open source=/[fn:42],
+    I license these hobby projects under /=MIT=/[fn:43].
+
+    On the local development, I also use different sets of tools (preferred but not intentional) to do these hobby projects such as
+    /=Arch Linux=/[fn:44] as the operating system,
+    /=i3=/[fn:45] as the desktop environment,
+    /=BASH=/[fn:46] as the shell,
+    /=Make=/[fn:47] as the build tool,
+    /=Spacemacs=/[fn:48] (an /=Emacs=/[fn:49] distribution) as the text editor
+    and /=Markdown=/[fn:50] (for simple writing)
+    or /=Org mode=/[fn:51] (for complex writing) for documentation.
+
+*** The Future
+
+    The ideal future, that I aim, taking both personal and technical sides into account, is to become a *modern* /=LISPer=/[fn:6] using /=Clojure=/[fn:7] / /=ClojureScript=/[fn:52]
+    with the main focus on user interfaces and the guiding principles of /*HCI*/[fn:53].
+
+* Footnotes
+
+[fn:1] [[https://tradebyte.com][Tradebyte Software GmbH]]
+[fn:2] [[https://en.wikipedia.org/wiki/Know_thyself][Know thyself]]
+[fn:3] [[https://en.wikipedia.org/wiki/Self-discovery][Self-discovery]]
+[fn:4] [[https://www.python.org][Python]]
+[fn:5] [[https://www.ruby-lang.org][Ruby]]
+[fn:6] [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]]
+[fn:7] [[https://clojure.org][Clojure]]
+[fn:8] [[https://en.wikipedia.org/wiki/Friedrich_Nietzsche][Friedrich Nietzsche]]
+[fn:9] [[https://www.understandmyself.com][Understand Myself]]
+[fn:10] [[https://en.wikipedia.org/wiki/Big_Five_Aspect_Scales][The Big Five Aspect Scales]]
+[fn:11] [[https://en.wikipedia.org/wiki/Agreeableness][Agreeableness]]
+[fn:12] [[https://en.wikipedia.org/wiki/Openness][Openness]]
+[fn:13] [[https://en.wikipedia.org/wiki/Conscientiousness][Conscientiousness]]
+[fn:14] [[https://en.wikipedia.org/wiki/Neuroticism][Neuroticism]]
+[fn:15] [[https://en.wikipedia.org/wiki/Extraversion_and_introversion#Introversion][Introverted]]
+[fn:16] [[https://www.16personalities.com][16Personalities]]
+[fn:17] [[https://en.wikipedia.org/wiki/Myers%25E2%2580%2593Briggs_Type_Indicator][Myers–Briggs Type Indicator]]
+[fn:18] [[https://www.16personalities.com/infp-personality][INFP]]
+[fn:19] [[https://www.16personalities.com/articles/assertive-mediator-infp-a-vs-turbulent-mediator-infp-t][Assertive vs. Turbulent]]
+[fn:20] [[https://en.wikipedia.org/wiki/Pseudoscience][pseudoscience]]
+[fn:21] [[https://en.wikipedia.org/wiki/Impostor_syndrome][Impostor syndrome]]
+[fn:22] [[http://test.mensa.no][Mensa Norway]]
+[fn:23] [[https://en.wikipedia.org/wiki/Sensory_processing_sensitivity][Sensory processing sensitivity]]
+[fn:24] [[https://en.wikipedia.org/wiki/Gender_role][Gender role]]
+[fn:25] [[https://en.wikipedia.org/wiki/Defensive_pessimism][Defensive pessimism]]
+[fn:26] [[https://en.wikipedia.org/wiki/Cognitive_strategy][Cognitive strategy]]
+[fn:27] [[https://en.wikipedia.org/wiki/Mysticism][Mysticism]]
+[fn:28] [[https://en.wikipedia.org/wiki/Noumenon][Noumenon]]
+[fn:29] [[https://en.wikipedia.org/wiki/Birthstone][Birthstone]]
+[fn:30] [[https://en.wikipedia.org/wiki/Western_astrology][Western astrology]]
+[fn:31] [[https://en.wikipedia.org/wiki/Chinese_zodiac][Chinese zodiac]]
+[fn:32] [[https://www.djangoproject.com][Django]]
+[fn:33] [[https://aws.amazon.com][AWS]]
+[fn:34] [[https://en.wikipedia.org/wiki/JavaScript][JavaScript]]
+[fn:35] [[https://rubyonrails.org][Ruby on Rails]]
+[fn:36] [[https://github.com][GitHub]]
+[fn:37] [[https://guides.github.com/introduction/flow][GitHub flow]]
+[fn:38] [[https://travis-ci.org][Travis CI]]
+[fn:39] [[https://heroku.com][Heroku]]
+[fn:40] [[https://www.heroku.com/flow][Heroku Flow]]
+[fn:41] [[https://en.wikipedia.org/wiki/CI/CD][CI/CD]]
+[fn:42] [[https://en.wikipedia.org/wiki/Open_source][Open source]]
+[fn:43] [[https://opensource.org/licenses/MIT][MIT License]]
+[fn:44] [[https://www.archlinux.org][Arch Linux]]
+[fn:45] [[https://i3wm.org][i3wm]]
+[fn:46] [[https://www.gnu.org/software/bash][BASH]]
+[fn:47] [[https://en.wikipedia.org/wiki/Make_(software)][Make]]
+[fn:48] [[http://spacemacs.org][Spacemacs]]
+[fn:49] [[https://www.gnu.org/software/emacs][Emacs]]
+[fn:50] [[https://daringfireball.net/projects/markdown][Markdown]]
+[fn:51] [[https://orgmode.org][Org mode]]
+[fn:52] [[https://clojurescript.org][ClojureScript]]
+[fn:53] [[https://en.wikipedia.org/wiki/Human%25E2%2580%2593computer_interaction][HCI]]

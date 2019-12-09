@@ -10,11 +10,12 @@ My [homepage](https://ejelome.com)
 
 - [ejelome.com](#ejelomecom)
     - [Dependencies](#dependencies)
+    - [Setup](#setup)
     - [Install](#install)
     - [Compile](#compile)
-    - [Run](#run)
+    - [Server](#server)
     - [Publish](#publish)
-    - [Extras](#extras)
+    - [Others](#others)
     - [License](#license)
 
 <!-- markdown-toc end -->
@@ -37,10 +38,21 @@ $ npm install -g html-minifier \
 
 -------------------------------------------------------------------------------
 
+Setup
+-----
+
+``` shell
+$ git clone --recursive https://github.com/ejelome/ejelome.com.git
+```
+
+**Note:** `--recursive`also clones `hugo-theme-mod-kiera` submodule.
+
+-------------------------------------------------------------------------------
+
 Install
 -------
 
-Setup and configure a [Cryogen](http://cryogenweb.org) template with existing `content`.
+Setup and configure an existing [Hugo](https://gohugo.io) template:
 
 ``` shell
 $ make install
@@ -48,13 +60,8 @@ $ make install
 
 The command `make install` does the following:
 
-1. Create a `tmp` directory
-2. Move `.gitignore` and `content` directory to `tmp`
-3. Generate a `cryogen` template in the current directory
-4. Remove the generated `.gitignore`, `content` directory and `themes`' subdirectories
-5. Move back `.gitignore` and `content` directory from `tmp` directory to current directory
-6. Remove the created `tmp` directory
-7. Clone [cryogen-theme-wooji](https://github.com/ejelome/cryogen-theme-wooji) as `themes/wooji`
+1. Install [hugo](https://gohugo.io)
+2. Install [hugo-theme-mod-kiera](https://github.com/ejelome/hugo-theme-mod-kiera) as `mod-kiera`
 
 -------------------------------------------------------------------------------
 
@@ -63,37 +70,39 @@ Compile
 
 Generate static files without running a server.
 
-**Note:** `make` uses `make compile`.
 
 ``` shell
 $ make compile
 ```
 
-The command `make` or `make compile` does the following:
+The command `make compile` does the following:
 
-1. Run the command `lein run` (compile the files without running a web server)
+1. Compile markdown files to `public/`
 
 -------------------------------------------------------------------------------
 
-Run
----
+Server
+------
 
-Generate static files then run web server.
+Generate static files to `content/` and run the web server.
+
+**Note:** `make` uses `make server`.
 
 ``` shell
-$ make run
+$ make server
 ```
 
-The command `make run` does the following:
+The command `make` or `make run` does the following:
 
-1. Run the command `lein ring server` (compile the files then run a web server)
+1. Open `content/index.html` using the default browser
+2. Run `hugo` web server with auto navigate on file change
 
 -------------------------------------------------------------------------------
 
 Publish
 -------
 
-Copy `publish` files to `docs` directory then push to `master` branch.
+Copy `publish` files to `docs/` directory then push to `master` branch.
 
 ``` shell
 $ make publish
@@ -101,30 +110,29 @@ $ make publish
 
 The command `make publish` does the following:
 
-0. Re-compile, fix `sitemap.xml` then minify all markup, style, script and image files
-1. Remove previously moved `docs` directory (if there is any)
-2. Rename `public` directory to `docs` directory
+1. Execute `compile`, `optimize-`(`html`,`css`,`js`,`img`), `rep-asset-urls` and `rel-nofollow`
+2. Remove existing `docs/` (if there is any)
+2. Rename `public/` to `docs/`
 3. Stage all the files to `git`
-4. Commit the staged files with `date +%s` (timestamp) as message
+4. Commit the staged files with `date +%s` (`timestamp`) as message
 5. Push the commit to `master` branch (`origin`)
 
 -------------------------------------------------------------------------------
 
-Extras
+Others
 ------
 
 The following are convenience `make` commands:
 
-| Command         | Description                                            |
-| :-------------- | :----------------------------------------------------- |
-| `fix-sitemap`   | Add trailing slash (`/`) after `.com` on `sitemap.xml` |
-| `fix-all`       | Run all `fix-*` commands                               |
-| `rel-nofollow`  | Add `rel="nofollow"` on external links                 |
-| `optimize-html` | Minify all markup (`*.html`) files                     |
-| `optimize-css`  | Minify `css/styles.css` file                           |
-| `optimize-js`   | Minify `js/scripts.js` file                            |
-| `optimize-img`  | Optimize all image files                               |
-| `optimize-all`  | Run all `optimize-*` commands                          |
+| Command          | Description                                            |
+| :--------------- | :----------------------------------------------------- |
+| `clean`          | Remove files and directories specified in `.gitignore` |
+| `optimize-html`  | Minify `.html` files                                   |
+| `optimize-css`   | Minify `css/styles.css` to `css/styles.min.css`        |
+| `optimize-js`    | Minify `js/scripts.js` to `js/scripts.min.js`          |
+| `optimize-img`   | Optimize images                                        |
+| `rep-asset-urls` | Replace `.css` and `.js` urls to minified urls         |
+| `rel-nofollow`   | Add `rel="nofollow"` on `href`s with external links    |
 
 -------------------------------------------------------------------------------
 

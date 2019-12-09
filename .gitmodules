@@ -1,0 +1,3 @@
+[submodule "themes/mod-kiera"]
+	path = themes/mod-kiera
+	url = git@github.com:ejelome/theme-mod-kiera.git

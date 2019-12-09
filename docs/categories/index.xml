@@ -1,0 +1,32 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on ejelome</title>
+    <link>/categories/</link>
+    <description>Recent content in Categories on ejelome</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 28 Jul 2019 00:00:00 +0200</lastBuildDate>
+    
+    <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Design</title>
+      <link>/categories/design/</link>
+      <pubDate>Sun, 28 Jul 2019 00:00:00 +0200</pubDate>
+      
+      <guid>/categories/design/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Research</title>
+      <link>/categories/research/</link>
+      <pubDate>Sun, 28 Jul 2019 00:00:00 +0200</pubDate>
+      
+      <guid>/categories/research/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
