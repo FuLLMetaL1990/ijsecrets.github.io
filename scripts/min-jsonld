@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# Further minify JSON-LD in HTML files.
+#
+# Arguments:
+#   ${1} Input file
+
+# Require 2 arguments:
+if [[ ${#} -ne 1 ]]; then
+  printf "Error: Invalid number of arguments\n\tExpected '1' but got '${#}'\n"
+  exit
+fi
+
+# Require input file:
+if [[ ! -f ${1} ]]; then
+  printf "Error: Invalid input file\n\tFile '${1}' not found\n"
+  exit
+fi
+
+REGEXPS=(
+  "{\s*/{"
+  "\s*}/}"
+  "\[\s*/["
+  "\s*\]/]"
+  '\,\s*"/,"'
+)
+
+for regexp in ${REGEXPS[@]}; do
+  sed -i "s/${regexp}/g" ${1}
+done
+
+for regexp in ${REGEXPS[@]}; do
+  TIMESTAMP=$(date +%Y-%m-%d\ %H:%M:%S)
+  echo "[${TIMESTAMP}] INFO sed -i s/${regexp}/g ${1}"
+done

@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Minify XML files.
+#
+# Arguments:
+#   ${1} --input-dir
+#   ${2} --output-dir
+
+# Require 2 arguments:
+if [[ ${#} -ne 2 ]]; then
+  printf "Error: Invalid number of arguments\n\tExpected '2' but got '${#}'\n"
+  exit
+fi
+
+# Require --input-dir:
+if [[ ! -d ${1} ]]; then
+  printf "Error: Invalid --input-dir\n\tDirectory '${1}' not found\n"
+  exit
+fi
+
+html-minifier --case-sensitive                        \
+              --collapse-boolean-attributes           \
+              --collapse-whitespace                   \
+              --decode-entities                       \
+              --keep-closing-slash                    \
+              --prevent-attributes-escaping           \
+              --remove-comments                       \
+              --remove-empty-attributes               \
+              --remove-empty-elements                 \
+              --sort-attributes                       \
+              --sort-class-name                       \
+              --input-dir ${1}                        \
+              --output-dir ${2}                       \
+              --file-ext xml
+
+REGEXP="?>\s*</?><"
+
+for file in ${2}/*.xml; do
+  sed -i "s/${REGEXP}/g" ${file};
+done
+
+for file in ${2}/*.xml; do
+  TIMESTAMP=$(date +%Y-%m-%d\ %H:%M:%S)
+  echo "[${TIMESTAMP}] INFO sed -i s/${REGEXP}/g ${file}";
+done

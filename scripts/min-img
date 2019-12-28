@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Compress images.
+#
+# Arguments:
+#   ${1} <path> (source directory)
+#   ${2} --out-dir
+
+# Require 2 arguments:
+if [[ ${#} -ne 2 ]]; then
+  printf "Error: Invalid number of arguments\n\tExpected '2' but got '${#}'\n"
+  exit
+fi
+
+# Require --input-dir:
+if [[ ! -d ${1} ]]; then
+  printf "Error: Invalid --input-dir\n\tDirectory '${1}' not found\n"
+  exit
+fi
+
+IMAGE_EXTENSIONS=("jpg" "jpeg" "png" "ico" "svg")
+EXTENSIONS=$(printf '%s\n' "$(IFS=,; printf '%s' "${IMAGE_EXTENSIONS[*]}")")
+imagemin ${1}/*.{${EXTENSIONS}} --out-dir ${2}
+
+TIMESTAMP=$(date +%Y-%m-%d\ %H:%M:%S)
+echo "[${TIMESTAMP}] INFO imagemin ${1}/*.{${EXTENSIONS}} --out-dir ${2}"

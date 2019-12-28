@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Reveal.js with Org layer</title>
+<meta name="author" content="(@ejelome)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/reveal.js/css/theme/serif.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '//cdn.jsdelivr.net/npm/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<link rel="stylesheet" href="./css/custom.css" />
+<script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="./js/custom.js"></script>
+<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Reveal.js with Org layer</h1><h2 class="author">@ejelome</h2><p class="date">Created: 2019-12-29 Sun 14:52</p>
+</section>
+
+<section>
+<section id="slide-org5b53924">
+<h2 id="org5b53924"><i>WHY?</i></h2>
+<ol>
+<li class="fragment roll-in">You are already using <a href="https://www.spacemacs.org">Spacemacs</a></li>
+<li class="fragment roll-in">You want to use <a href="https://orgmode.org">Org mode</a> to create documents</li>
+<li class="fragment roll-in">You want to present them as slideshows in <a href="https://www.w3.org/html">HTML</a></li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-org926e874">
+<h2 id="org926e874">Prerequisites</h2>
+<ol>
+<li class="fragment roll-in"><p>
+<a href="https://www.spacemacs.org">Spacemacs</a>
+</p>
+
+<aside class="notes">
+<p>
+<b>Notes:</b>
+</p>
+
+<ul>
+<li>an <a href="https://www.gnu.org/software/emacs">Emacs</a> distribution</li>
+<li>with <a href="https://github.com/syl20bnr/spacemacs/stargazers">18.8k stars</a> on <a href="https://github.com">GitHub</a></li>
+
+</ul>
+
+</aside></li>
+
+<li class="fragment roll-in"><p>
+<a href="https://www.spacemacs.org/layers/+emacs/org/README.html">Org layer</a>
+</p>
+
+<aside class="notes">
+<p>
+<b>Notes:</b>
+</p>
+
+<ul>
+<li>enables <a href="https://orgmode.org">Org mode</a> on <a href="https://www.spacemacs.org">Spacemacs</a></li>
+
+</ul>
+
+</aside></li>
+
+<li class="fragment roll-in"><p>
+<a href="https://revealjs.com">reveal.js</a>
+</p>
+
+<aside class="notes">
+<p>
+<b>Notes:</b>
+</p>
+
+<ul>
+<li>enables creating slide presentations on <a href="https://www.w3.org/html">HTML</a></li>
+
+</ul>
+
+</aside></li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf947617">
+<h2 id="orgf947617">Install Org layer</h2>
+<ol>
+<li class="fragment roll-in"><p>
+Open <code>.spacemacs</code>
+</p>
+
+<pre class="example">
+Press: SPC f e d
+</pre>
+
+<aside class="notes">
+<p>
+<b>Notes:</b>
+</p>
+
+<ul>
+<li>the <code>init</code> file (or initialization file) for <a href="https://www.spacemacs.org">Spacemacs</a></li>
+<li>in plain <a href="https://www.gnu.org/software/emacs">Emacs</a>, this is the <code>.emacs</code>, <code>.emacs.el</code> or <code>init.el</code> inside the <code>.emacs.d</code> directory</li>
+
+</ul>
+
+</aside></li>
+
+<li class="fragment roll-in"><p>
+Add <a href="https://www.spacemacs.org/layers/+emacs/org/README.html">Org layer</a>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"><code trim>dotspacemacs-configuration-layers
+'(
+  ...
+  (org <span style="color: #268bd2;">:variables</span>
+       org-enable-reveal-js-support t)
+</code></pre>
+</div>
+
+<aside class="notes">
+<p>
+<b>Notes:</b>
+</p>
+
+<ul>
+<li>loads the configuration layers during <a href="https://www.spacemacs.org">Spacemacs</a> startup or sync</li>
+
+</ul>
+
+</aside></li>
+
+<li class="fragment roll-in"><p>
+Sync configuration
+</p>
+
+<pre class="example">
+Press: SPC f e R
+</pre>
+
+<aside class="notes">
+<p>
+<b>Notes:</b>
+</p>
+
+<ul>
+<li>loads the configuration layers without the need to re-open <a href="https://www.spacemacs.org">Spacemacs</a></li>
+
+</ul>
+
+</aside></li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-org8d71a94">
+<h2 id="org8d71a94">Setup <a href="https://revealjs.com">reveal.js</a></h2>
+<ol>
+<li class="fragment roll-in"><p>
+Download the latest release
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell"><code trim>$ wget https://github.com/hakimel/reveal.js/archive/3.8.0.zip
+</code></pre>
+</div></li>
+
+<li class="fragment roll-in"><p>
+Unzip <a href="https://github.com/hakimel/reveal.js/archive/3.8.0.zip">Source code</a>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell"><code trim>$ unzip 3.8.0.zip
+</code></pre>
+</div></li>
+
+<li class="fragment roll-in"><p>
+Rename directory
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell"><code trim>$ mv reveal.js-3.8.0 reveal.js
+</code></pre>
+</div>
+
+<aside class="notes">
+<p>
+<b>Notes:*</b>
+</p>
+
+<ul>
+<li><code>./reveal.js</code> is the default relative path where the <code>org</code> file looks for the <a href="https://revealjs.com">reveal.js</a> assets</li>
+
+</ul>
+
+</aside></li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-org11adf4f">
+<h2 id="org11adf4f">Create a slideshow</h2>
+<ol>
+<li class="fragment roll-in"><p>
+Create an <code>.org</code> file
+</p>
+
+<pre class="example">
+#+TITLE: Hello World!
+#+AUTHOR: @username
+#+OPTIONS: toc:nil num:nil
+
+* Do this
+
+And this will happen ...
+</pre>
+
+<aside class="notes">
+<p>
+<b>Notes:</b>
+</p>
+
+<ul>
+<li><code>#+TITLE</code> along with <code>#+AUTHOR</code> are what appears on the landing page</li>
+<li><code>toc:nil</code> removes Table of Contents</li>
+<li><code>num:nil</code> removes number in headings</li>
+<li><code>* Do this</code> is the heading and will be the title of a slide</li>
+<li><code>And this will happen ...</code> is the content of the slide</li>
+
+</ul>
+
+</aside></li>
+
+<li class="fragment roll-in"><p>
+Export to <a href="https://revealjs.com">reveal.js</a>
+</p>
+
+<pre class="example">
+# Export without opening a browser:
+Press: C-c C-e v V
+
+# Or export then open default browser:
+or press: C-c C-e v b
+</pre></li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-org8d1baa6">
+<h2 id="org8d1baa6">And that's it! :)</h2>
+
+</section>
+</section>
+<section>
+<section id="slide-orgdf6baaa">
+<h2 id="orgdf6baaa">References</h2>
+<ul>
+<li><p>
+<a href="https://www.spacemacs.org/layers/+emacs/org/README.html">Org layer</a>
+</p>
+
+<p>
+<code>spacemacs.org/layers/+emacs/org/README.html</code>
+</p></li>
+
+<li><p>
+<a href="https://github.com/yjwen/org-reveal">Org-Reveal</a>
+</p>
+
+<p>
+<code>github.com/yjwen/org-reveal</code>
+</p></li>
+
+<li><p>
+<a href="https://orgmode.org/manual">The Org Manual</a>
+</p>
+
+<p>
+<code>orgmode.org/manual</code>
+</p></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="//cdn.jsdelivr.net/npm/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: '//cdn.jsdelivr.net/npm/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: '//cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: '//cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: '//cdn.jsdelivr.net/npm/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: '//cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>

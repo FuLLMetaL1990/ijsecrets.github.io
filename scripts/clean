@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# Clean build files.
+#
+# Arguments:
+#   ${1} Reference directory
+#   ${2} Target directory
+
+# Require 2 arguments:
+if [[ ${#} -ne 2 ]]; then
+  printf "Error: Invalid number of arguments\n\tExpected '2' but got '${#}'\n"
+  exit
+fi
+
+# Require --input-dir:
+if [[ ! -d ${1} ]]; then
+  printf "Error: Invalid --input-dir\n\tDirectory '${1}' not found\n"
+  exit
+fi
+
+for file in ${1}/*; do
+  filename=$(basename ${file})
+  file_path=${2}/${filename}
+
+  if [[ -f ${file_path} ]]; then
+    rm ${file_path}
+
+    TIMESTAMP=$(date +%Y-%m-%d\ %H:%M:%S)
+    echo "[${TIMESTAMP}] INFO rm ${file_path}"
+  elif [[ -d ${file_path} ]]; then
+    rm -rf ${file_path}
+
+    TIMESTAMP=$(date +%Y-%m-%d\ %H:%M:%S)
+    echo "[${TIMESTAMP}] INFO rm -rf ${file_path}"
+  fi
+done
