@@ -1,0 +1,39 @@
+.icon.icon-home + .version {
+  display: none;
+}
+
+.wy-menu-vertical p.caption {
+  color: #DDEEFF;
+}
+
+footer {
+  text-align: center;
+}
+
+/* Sticky Footer */
+footer {
+  height: 140px;
+}
+
+.document[role="main"] {
+  min-height: calc(
+    100vh
+    - 54px       /* [role="navigation"] */
+    - 52.77600px /* .wy-nav-content (padding [top, bottom]) */
+    - 140px      /* footer */
+    - 23px       /* excess (unknown) */
+  );
+}
+
+@media screen and (max-width: 768px) {
+  .document[role="main"] {
+    min-height: calc(
+      100vh
+      - 62.93700px /* nav.wy-nav-top */
+      - 54px       /* [role="navigation"] */
+      - 52.77600px /* .wy-nav-content (padding [top, bottom]) */
+      - 140px      /* footer */
+      - 23px       /* excess (unknown) */
+    );
+  }
+}

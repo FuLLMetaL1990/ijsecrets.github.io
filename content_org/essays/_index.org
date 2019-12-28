@@ -1,4 +1,0 @@
-#+TITLE: "Essays"
-
-#+HUGO_BASE_DIR: ../../
-#+HUGO_MENU: :menu main :weight 5

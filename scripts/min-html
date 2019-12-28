@@ -1,0 +1,74 @@
+#!/bin/bash
+#
+# Minify HTML files.
+#
+# Arguments:
+#   ${1} --input-dir
+#   ${2} --output-dir
+
+# Require 2 arguments:
+if [[ ${#} -ne 2 ]]; then
+  printf "Error: Invalid number of arguments\n\tExpected '2' but got '${#}'\n"
+  exit
+fi
+
+# Require --input-dir:
+if [[ ! -d ${1} ]]; then
+  printf "Error: Invalid --input-dir\n\tDirectory '${1}' not found\n"
+  exit
+fi
+
+html-minifier --case-sensitive                        \
+              --collapse-boolean-attributes           \
+              --collapse-whitespace                   \
+              --decode-entities                       \
+              --no-html5                              \
+              --minify-css true                       \
+              --minify-js true                        \
+              --minify-urls true                      \
+              --process-scripts "application/ld+json" \
+              --prevent-attributes-escaping           \
+              --quote-character \"                    \
+              --remove-attribute-quotes               \
+              --remove-comments                       \
+              --remove-empty-attributes               \
+              --remove-empty-elements                 \
+              --remove-optional-tags                  \
+              --remove-redundant-attributes           \
+              --remove-script-type-attributes         \
+              --remove-style-link-type-attributes     \
+              --remove-tag-whitespace                 \
+              --sort-attributes                       \
+              --sort-class-name                       \
+              --use-short-doctype                     \
+              --input-dir ${1}                        \
+              --output-dir ${2}                       \
+              --file-ext html
+
+TIMESTAMP=$(date +%Y-%m-%d\ %H:%M:%S)
+echo "[${TIMESTAMP}] INFO html-minifier --case-sensitive
+                                         --collapse-boolean-attributes
+                                         --collapse-whitespace
+                                         --decode-entities
+                                         --no-html5
+                                         --minify-css true
+                                         --minify-js true
+                                         --minify-urls true
+                                         --process-scripts "'"application/ld+json"' "
+                                         --prevent-attributes-escaping
+                                         --quote-character "'"'"
+                                         --remove-attribute-quotes
+                                         --remove-comments
+                                         --remove-empty-attributes
+                                         --remove-empty-elements
+                                         --remove-optional-tags
+                                         --remove-redundant-attributes
+                                         --remove-script-type-attributes
+                                         --remove-style-link-type-attributes
+                                         --remove-tag-whitespace
+                                         --sort-attributes
+                                         --sort-class-name
+                                         --use-short-doctype
+                                         --input-dir ${1}
+                                         --output-dir ${2}
+                                         --file-ext html"
